@@ -1,0 +1,32 @@
+* {
+
+  font-family: 'Inter', 'Segoe UI', 'system-ui', sans-serif;
+
+  --primary: var(#4CAF50);
+  --secondary: var(#F9A825);
+  --background: var(#F5F5F5);
+  --text: var(#212121);
+  --subtext: var(#616161);
+  --favourite: var(#FF5252);
+  --judgement: var(#FFD600);
+
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+body {
+  font-size: 1rem;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
