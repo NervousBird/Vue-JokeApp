@@ -24,6 +24,8 @@ const jokeData = ref<IJoke>();
 // Simple GET request using fetch
 const searchString = ref('Any')
 
+const categoryString = ref([])
+
 const changeString = () => {
     if(searchString.value === 'Any') {
         searchString.value = 'Programming'
@@ -32,9 +34,16 @@ const changeString = () => {
     }
 }
 
+const setCategoryString = () => {
+    categoryString.value.toString()
+}
+
 const fetchData = () => {
     //.../joke/({category}?)({blacklistFlags={flags}}&)type={type}
-  fetch(`https://v2.jokeapi.dev/joke/${searchString.value}`)
+if(categoryString.value.toString() === '') {
+    categoryString.value.push('Any')
+}
+  fetch(`https://v2.jokeapi.dev/joke/${categoryString.value.toString()}`)
     .then(response => response.json())
     .then(data => jokeData.value = data)
 }
@@ -42,15 +51,29 @@ const fetchData = () => {
 </script>
 
 <template>
-
     <div>
         <h1>New Jokes!</h1>
     </div>
+    <!-- Joke filter here -->
     <form>
         <!-- Just need to make a function to print the right string -->
-        <label for="any">Search only Programming</label>
-        <input type="checkbox" name="any" @click="changeString">
+        <label for="any">Any</label>
+        <input type="checkbox" name="any" value="Any" v-model="categoryString">
+        <label for="programming">Programming</label>
+        <input type="checkbox" name="programming" value="Programming" v-model="categoryString">
+        <label for="miscellaneous">Miscellaneous</label>
+        <input type="checkbox" name="miscellaneous" value="Miscellaneous" v-model="categoryString">
+        <label for="dark">Dark</label>
+        <input type="checkbox" name="dark" value="Dark" v-model="categoryString">
+        <label for="pun">Pun</label>
+        <input type="checkbox" name="pun" value="Pun" v-model="categoryString">
+        <label for="spooky">Spooky</label>
+        <input type="checkbox" name="spooky" value="Spooky" v-model="categoryString">
+        <label for="christmas">Christmas</label>
+        <input type="checkbox" name="christmas" value="Christmas" v-model="categoryString">
     </form>
+    <!--  -->
+    <p>{{ categoryString.toString() }}</p>
     <div>
       <p>{{ jokeData?.setup }}</p>
       <p>{{ jokeData?.delivery }}</p>
@@ -58,9 +81,14 @@ const fetchData = () => {
       <!-- <p>{{ jokeData?.flags.racist }}</p> -->
       <button @click="fetchData">New Joke!</button>
     </div>
-
 </template>
 
 <style scoped>
+
+form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 
 </style>
