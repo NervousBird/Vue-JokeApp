@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const jokeData = ref(null);
+const info = ref(null)
 
-// Simple GET request using fetch
-const fetchData = () => {
-  fetch('https://v2.jokeapi.dev/joke/Any?format=json')
+const getInfo = () => {
+  fetch('https://v2.jokeapi.dev/info')
     .then(response => response.json())
-    .then(data => jokeData.value = data.setup + data.delivery);
+    .then(data => info.value = data)
 }
 
 </script>
@@ -15,10 +14,13 @@ const fetchData = () => {
 <template>
   <main>
     <h1>Home!</h1>
-
-    <div>
-      <p>{{ jokeData }}</p>
-      <button @click="fetchData">Get API Info</button>
-    </div>
   </main>
+  <div>
+    <p>{{ info }}</p>
+    <button @click="getInfo">GetInfo</button>
+  </div>
 </template>
+
+<style scoped>
+
+</style>
