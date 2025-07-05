@@ -68,6 +68,8 @@ watch(categoryType, () => {
 onMounted(() => {
     anyCategory.value.checked = true
     jokeType.value.checked = true
+    createFilterString()
+    emit('updateFilters', filterString)
 })
 
 </script>
