@@ -15,5 +15,5 @@ export interface IJoke {
     },
     safe: boolean,
     id: number,
-    lang: string
+    lang: string,
 }
