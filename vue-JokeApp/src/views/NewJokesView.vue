@@ -28,7 +28,7 @@ const jokeData = ref<IJoke>()
 const favouritesArray = ref([])
 const storedFavourites = localStorage.getItem('favourites')
 const favourite = ref(false)
-const jokeRating = ref()
+const jokeRating = ref([])
 
 const updateFilter = (info: string) => {
     filterString.value = info
@@ -75,9 +75,10 @@ const addToFavourites = () => {
         localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
         checkFavourite()
     }
-    // else {
-    //     alert('Already favourited!')
-    // }
+}
+
+const updateRanking = () => {
+
 }
 
 watch(jokeData, () => {
@@ -100,13 +101,13 @@ onMounted(loadFavouriteStorage)
       <h3>{{ jokeData?.delivery }}</h3>
       <h3>{{ jokeData?.joke }}</h3>
       <h4>{{ favourite }}</h4>
-      <div>
+      <form @change="updateRanking">
         <input type="checkbox" name="ranking1" v-model="jokeRating">
         <input type="checkbox" name="ranking2" v-model="jokeRating">
         <input type="checkbox" name="ranking3" v-model="jokeRating">
         <input type="checkbox" name="ranking4" v-model="jokeRating">
         <input type="checkbox" name="ranking5" v-model="jokeRating">
-      </div>
+      </form>
       <button @click="addToFavourites">I love this!</button>
       <button @click="fetchData">New Joke!</button>
     </div>
