@@ -19,17 +19,18 @@ const loadFavouriteStorage = () => {
 }
 
 const fetchData = () => {
-    console.log(favouritesInfo.value)
-    // favouritesArray.value.forEach(id => {
-    //     fetch(`https://v2.jokeapi.dev/joke/Any?idRange=${id}`)
-    //         .then(response => response.json())
-    //         .then(data => favouritesInfo.value.push(data))
-    // })
     favouritesArray.value.forEach(async id => {
         const data = await fetch(`https://v2.jokeapi.dev/joke/Any?idRange=${id}`)
             .then(response => response.json())
             .then(data => favouritesInfo.value.push(data))
     })
+}
+
+// FIX THIS TO WORK ON THIS PAGE
+const addToFavourites = (joke: IJoke,id: number) => {
+    favouritesArray.value = favouritesArray.value.filter((number: number) => number !== id)
+    favouritesInfo.value = favouritesInfo.value.filter((item) => item !== joke)
+    localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
 }
     
 onMounted(loadFavouriteStorage)
@@ -57,6 +58,7 @@ onMounted(fetchData)
             <p>{{ fav.joke }}</p>
             <p>{{ fav.category }}</p>
             <p>{{ fav.id }}</p>
+            <button @click="addToFavourites(fav, fav.id)">Get this shit out of here!</button>
         </li>
     </ul>
 
