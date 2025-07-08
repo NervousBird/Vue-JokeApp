@@ -28,7 +28,8 @@ const jokeData = ref<IJoke>()
 const favouritesArray = ref([])
 const storedFavourites = localStorage.getItem('favourites')
 const favourite = ref(false)
-const jokeRating = ref([])
+const ratingTotal = ref(5)
+const jokeRating = ref(0)
 
 const updateFilter = (info: string) => {
     filterString.value = info
@@ -77,8 +78,8 @@ const addToFavourites = () => {
     }
 }
 
-const updateRanking = () => {
-
+const setRating = (star: number) => {
+    jokeRating.value = star
 }
 
 watch(jokeData, () => {
@@ -101,13 +102,16 @@ onMounted(loadFavouriteStorage)
       <h3>{{ jokeData?.delivery }}</h3>
       <h3>{{ jokeData?.joke }}</h3>
       <h4>{{ favourite }}</h4>
-      <form @change="updateRanking">
-        <input type="checkbox" name="ranking1" v-model="jokeRating">
-        <input type="checkbox" name="ranking2" v-model="jokeRating">
-        <input type="checkbox" name="ranking3" v-model="jokeRating">
-        <input type="checkbox" name="ranking4" v-model="jokeRating">
-        <input type="checkbox" name="ranking5" v-model="jokeRating">
-      </form>
+      <!-- <form @change="setRating">
+        <input type="checkbox" id="1" v-model="jokeRating">
+        <input type="checkbox" id="2" v-model="jokeRating">
+        <input type="checkbox" id="3" v-model="jokeRating">
+        <input type="checkbox" id="4" v-model="jokeRating">
+        <input type="checkbox" id="5" v-model="jokeRating">
+      </form> -->
+      <div>
+        <span v-for="star in ratingTotal" :key="star" class="star" :class="{ filled: star <= jokeRating }" @click="setRating(star)">★</span>
+      </div>
       <button @click="addToFavourites">I love this!</button>
       <button @click="fetchData">New Joke!</button>
     </div>
@@ -119,6 +123,19 @@ form {
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.star {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.star.filled {
+    color: orange;
+}
+
+.star:hover {
+    color: blue;
 }
 
 </style>
