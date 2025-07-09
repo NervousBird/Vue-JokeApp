@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import JokeFilters from '@/components/JokeFilters.vue';
+import JokeSaveData from '@/components/JokeSaveData.vue';
 import type { IFavourite } from '@/favourite';
 import type { IJoke } from '@/joke';
 import { onMounted, ref, watch } from 'vue';
@@ -25,7 +26,7 @@ import { onMounted, ref, watch } from 'vue';
 
 const filterString = ref('')
 const jokeData = ref<IJoke>()
-const favouritesArray = ref([])
+const favouritesArray = ref<IFavourite[]>([])
 const storedFavourites = localStorage.getItem('favourites')
 const favourite = ref(false)
 const ratingTotal = ref(5)
@@ -44,49 +45,85 @@ const fetchData = () => {
         .then(data => jokeData.value = data)
 }
 
-const loadFavouriteStorage = () => {
-    if(storedFavourites && storedFavourites !== 'undefined') {
-        try {
-            favouritesArray.value = JSON.parse(storedFavourites)
-        } catch(error) {
-            console.log('Error parsing localStorage "favouritesArray:"', error)
-            localStorage.removeItem('favourites')
-        }
-    }
-}
+// // Everything below should be moved onto a component?
+// const loadFavouriteStorage = () => {
+//     if(storedFavourites && storedFavourites !== 'undefined') {
+//         try {
+//             favouritesArray.value = JSON.parse(storedFavourites)
+//         } catch(error) {
+//             console.log('Error parsing localStorage "favouritesArray:"', error)
+//             localStorage.removeItem('favourites')
+//         }
+//     }
+// }
 
-const checkFavourite = () => {
-    if(favouritesArray.value.includes(jokeData.value.id)) {
-        favourite.value = true
-    } else {
-        favourite.value = false
-    }
-}
+// // Change this to check whether the item in the local storage has {favourite: true}, not just if it exists
+// const checkFavourite = (jokeData: IJoke) => {
+//     let favouritesIDs = <number[]>([])
+//     favouritesArray.value.forEach((fav: IFavourite) => {
+//         favouritesIDs.push(fav.id)
+//     })
+//     if(favouritesIDs.includes(jokeData.id)) {
+//         favourite.value = true
+//     } else {
+//         favourite.value = false
+//     }
+// }
 
-const addToFavourites = () => {
-    if(jokeData.value === undefined) {
-        return alert('Load a joke first.')
-    }
-    if(!favouritesArray.value.includes(jokeData.value.id)) {
-        favouritesArray.value.push(jokeData.value.id)
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkFavourite()
-    } else {
-        favouritesArray.value = favouritesArray.value.filter((number: number) => number !== jokeData.value.id)
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkFavourite()
-    }
-}
+// // 
+// const addToFavourites = (jokeData: IJoke) => {
+//     // Set up an array with just the ids to easily check the info we wanna check
+//     let favouritesIDs = <number[]>([])
+//     favouritesArray.value.forEach((fav: IFavourite) => {
+//         favouritesIDs.push(fav.id)
+//     })
+//     // Don't need, just hide when there is no joke loaded
+//     // if(jokeData === undefined) {
+//     //     return alert('Load a joke first.')
+//     // }
+//     if(!favouritesIDs.includes(jokeData.id)) {
+//         favouritesArray.value.push({
+//             id: jokeData.id, 
+//             rating: jokeRating.value, 
+//             favourite: true,
+//         })
+//         localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
+//         checkFavourite(jokeData)
+//     } else {
+//         // Change this to just edit the data to {favourite: false} instead of removing it
+//         favouritesArray.value = favouritesArray.value.filter((savedJoke: IFavourite) => savedJoke.id !== jokeData.id)
+//         localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
+//         checkFavourite(jokeData)
+//     }
+// }
 
-const setRating = (star: number) => {
-    jokeRating.value = star
-}
+// const setRating = (star: number, jokeData: IJoke) => {
+//     jokeRating.value = star
+//     // Run a check here to see if information has been stored already, update OR add to the list
+//     // Will have to have a similar check for adding to favourites, so it can update??
+//     let favouritesIDs = <number[]>([])
+//     favouritesArray.value.forEach((fav: IFavourite) => {
+//         favouritesIDs.push(fav.id)
+//     })
+//     if(!favouritesIDs.includes(jokeData.id)) {
+//         // Edit the data in the array and ONLY update the rating system
+//     } else {
+//         favouritesArray.value.push({
+//             id: jokeData.id, 
+//             rating: jokeRating.value, 
+//             favourite: false,
+//         })
+//     }
+// }
 
-watch(jokeData, () => {
-    checkFavourite()
-})
+// // Write a function that removes jokes with NO favourite and NO rating (probably not even possible to remove the rating?)
 
-onMounted(loadFavouriteStorage)
+// // Expand this to update when loading a new joke (load the correct rating as well)
+// watch(jokeData, () => {
+//     checkFavourite(jokeData)
+// })
+
+// onMounted(loadFavouriteStorage)
 
 </script>
 
@@ -94,27 +131,26 @@ onMounted(loadFavouriteStorage)
     <div>
         <h1>New Jokes!</h1>
     </div>
-    <!-- Joke filter here -->
-    <JokeFilters @update-filters="updateFilter" />
-    <!--  -->
+     <div>
+        <JokeFilters @update-filters="updateFilter" />
+     </div>
     <div>
       <h3>{{ jokeData?.setup }}</h3>
       <h3>{{ jokeData?.delivery }}</h3>
       <h3>{{ jokeData?.joke }}</h3>
       <h4>{{ favourite }}</h4>
-      <!-- <form @change="setRating">
-        <input type="checkbox" id="1" v-model="jokeRating">
-        <input type="checkbox" id="2" v-model="jokeRating">
-        <input type="checkbox" id="3" v-model="jokeRating">
-        <input type="checkbox" id="4" v-model="jokeRating">
-        <input type="checkbox" id="5" v-model="jokeRating">
-      </form> -->
-      <div>
-        <span v-for="star in ratingTotal" :key="star" class="star" :class="{ filled: star <= jokeRating }" @click="setRating(star)">★</span>
-      </div>
-      <button @click="addToFavourites">I love this!</button>
       <button @click="fetchData">New Joke!</button>
     </div>
+    <div>
+        <JokeSaveData v-if="jokeData" :joke-data="jokeData" />
+    </div>
+    <!-- <div v-if="jokeData">
+        <span v-for="star in ratingTotal" :key="star" class="star" :class="{ filled: star <= jokeRating }" @click="setRating(star, jokeData)">★</span>
+    </div>
+    <div v-if="jokeData">
+      <button v-if="!favourite" @click="addToFavourites(jokeData)">I love this!</button>
+      <button v-if="favourite" @click="addToFavourites(jokeData)">Get this outta here!</button>
+    </div> -->
 </template>
 
 <style scoped>

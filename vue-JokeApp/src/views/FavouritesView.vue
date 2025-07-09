@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { IFavourite } from '@/favourite'
 import type { IJoke } from '@/joke'
 import { onMounted, ref } from 'vue'
 
-const favouritesArray = ref([])
+const favouritesArray = ref<IFavourite[]>([])
 const storedFavourites = localStorage.getItem('favourites')
-const jokeData = ref<IJoke>()
 const favouritesInfo = ref<IJoke[]>([])
 
 const loadFavouriteStorage = () => {
@@ -19,7 +19,11 @@ const loadFavouriteStorage = () => {
 }
 
 const fetchData = () => {
-    favouritesArray.value.forEach(async id => {
+    let favouritesIDs = <number[]>([])
+    favouritesArray.value.forEach((fav: IFavourite) => {
+        favouritesIDs.push(fav.id)
+    })
+    favouritesIDs.forEach(async id => {
         const data = await fetch(`https://v2.jokeapi.dev/joke/Any?idRange=${id}`)
             .then(response => response.json())
             .then(data => favouritesInfo.value.push(data))
@@ -27,9 +31,9 @@ const fetchData = () => {
 }
 
 // FIX THIS TO WORK ON THIS PAGE
-const addToFavourites = (joke: IJoke,id: number) => {
-    favouritesArray.value = favouritesArray.value.filter((number: number) => number !== id)
-    favouritesInfo.value = favouritesInfo.value.filter((item) => item !== joke)
+const removeFromFavourites = (jokeData: IJoke) => {
+    favouritesArray.value = favouritesArray.value.filter((favourite: IFavourite) => favourite.id !== jokeData.id)
+    favouritesInfo.value = favouritesInfo.value.filter((item: IJoke) => item !== jokeData)
     localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
 }
     
@@ -58,7 +62,7 @@ onMounted(fetchData)
             <p>{{ fav.joke }}</p>
             <p>{{ fav.category }}</p>
             <p>{{ fav.id }}</p>
-            <button @click="addToFavourites(fav, fav.id)">Get this shit out of here!</button>
+            <button @click="removeFromFavourites(fav)">Get this shit out of here!</button>
         </li>
     </ul>
 
