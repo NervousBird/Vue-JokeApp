@@ -28,7 +28,7 @@ const filterString = ref('')
 const jokeData = ref<IJoke>()
 // const favouritesArray = ref<IFavourite[]>([])
 // const storedFavourites = localStorage.getItem('favourites')
-const favourite = ref(false)
+// const favourite = ref(false)
 // const ratingTotal = ref(5)
 // const jokeRating = ref(0)
 
@@ -138,7 +138,8 @@ watch(jokeData, () => {
       <h3>{{ jokeData?.setup }}</h3>
       <h3>{{ jokeData?.delivery }}</h3>
       <h3>{{ jokeData?.joke }}</h3>
-      <h4>{{ favourite }}</h4>
+      <h3>{{ jokeData?.id }}</h3>
+      <!-- <h4>{{ favourite }}</h4> -->
       <button @click="fetchData">New Joke!</button>
     </div>
     <div>

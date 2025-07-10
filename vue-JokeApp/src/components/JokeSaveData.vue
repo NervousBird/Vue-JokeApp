@@ -30,17 +30,16 @@ const loadFavouriteStorage = () => {
 // also check for the rating
 const checkSavedInfo = (jokeData: IJoke) => {
     const favouritesIDs = favouritesArray.value.map(item => item.id)
-    // console.log(favouritesIDs)
     if(favouritesIDs.includes(jokeData.id)) {
-        favourite.value = true
-    } else {
-        favourite.value = false
+        const index = favouritesArray.value.findIndex((favourite) => favourite.id === jokeData.id)
+        favourite.value = favouritesArray.value[index].favourite || false
+        jokeRating.value = favouritesArray.value[index].rating || 0
     }
 }
 
 const toggleFavourite = (jokeData: IJoke) => {
+    // Hopefully not needed? Figure out to search through complex arrays
     const favouritesIDs = favouritesArray.value.map(item => item.id)
-    // Add to save array only if it doesn't already exist
     if(!favouritesIDs.includes(jokeData.id)) {
         favouritesArray.value.push({
             id: jokeData.id,
@@ -49,10 +48,15 @@ const toggleFavourite = (jokeData: IJoke) => {
         })
         localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
         checkSavedInfo(jokeData)
-        console.log("doesn't include")
     } else {
-        const index = favouritesArray.value.findIndex((favourite) => favourite.id)
-        console.log("does include", index)
+        const index = favouritesArray.value.findIndex((favourite) => favourite.id === jokeData.id)
+        if(favouritesArray.value[index].favourite === false) {
+            favouritesArray.value[index].favourite = true
+        } else {
+            favouritesArray.value[index].favourite = false
+        }
+        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
+        checkSavedInfo(jokeData)
     }
 }
 
@@ -61,12 +65,18 @@ const setRating = (star: number, jokeData: IJoke) => {
     const favouritesIDs = favouritesArray.value.map(item => item.id)
     if(!favouritesIDs.includes(jokeData.id)) {
         // Edit the data in the array and ONLY update the rating system
-    } else {
         favouritesArray.value.push({
             id: jokeData.id, 
             rating: jokeRating.value, 
             favourite: false,
         })
+        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
+        checkSavedInfo(jokeData)
+    } else {
+        const index = favouritesArray.value.findIndex((favourite) => favourite.id === jokeData.id)
+        favouritesArray.value[index].rating = jokeRating.value
+        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
+        checkSavedInfo(jokeData)
     }
 }
 
@@ -75,6 +85,8 @@ const setRating = (star: number, jokeData: IJoke) => {
 // Expand this to update when loading a new joke (load the correct rating as well)
 watch(() => props.jokeData, (newValue, oldValue) => {
     // console.log('update joke data')
+    favourite.value = false
+    jokeRating.value = 0
     checkSavedInfo(props.jokeData)
 })
 
