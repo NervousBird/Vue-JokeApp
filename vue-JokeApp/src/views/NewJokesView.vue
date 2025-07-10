@@ -26,11 +26,11 @@ import { onMounted, ref, watch } from 'vue';
 
 const filterString = ref('')
 const jokeData = ref<IJoke>()
-const favouritesArray = ref<IFavourite[]>([])
-const storedFavourites = localStorage.getItem('favourites')
+// const favouritesArray = ref<IFavourite[]>([])
+// const storedFavourites = localStorage.getItem('favourites')
 const favourite = ref(false)
-const ratingTotal = ref(5)
-const jokeRating = ref(0)
+// const ratingTotal = ref(5)
+// const jokeRating = ref(0)
 
 const updateFilter = (info: string) => {
     filterString.value = info
@@ -119,9 +119,9 @@ const fetchData = () => {
 // // Write a function that removes jokes with NO favourite and NO rating (probably not even possible to remove the rating?)
 
 // // Expand this to update when loading a new joke (load the correct rating as well)
-// watch(jokeData, () => {
-//     checkFavourite(jokeData)
-// })
+watch(jokeData, () => {
+    jokeData.value = jokeData.value
+})
 
 // onMounted(loadFavouriteStorage)
 

@@ -62,6 +62,7 @@ onMounted(fetchData)
             <p>{{ fav.joke }}</p>
             <p>{{ fav.category }}</p>
             <p>{{ fav.id }}</p>
+            <!-- change the below to load the JokeSaveData component -->
             <button @click="removeFromFavourites(fav)">Get this shit out of here!</button>
         </li>
     </ul>
