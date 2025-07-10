@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import JokeSaveData from '@/components/JokeSaveData.vue'
 import type { IFavourite } from '@/favourite'
 import type { IJoke } from '@/joke'
 import { onMounted, ref } from 'vue'
@@ -19,10 +20,7 @@ const loadFavouriteStorage = () => {
 }
 
 const fetchData = () => {
-    let favouritesIDs = <number[]>([])
-    favouritesArray.value.forEach((fav: IFavourite) => {
-        favouritesIDs.push(fav.id)
-    })
+    const favouritesIDs = favouritesArray.value.filter(item => item.favourite === true).map(item => item.id)
     favouritesIDs.forEach(async id => {
         const data = await fetch(`https://v2.jokeapi.dev/joke/Any?idRange=${id}`)
             .then(response => response.json())
@@ -30,13 +28,11 @@ const fetchData = () => {
     })
 }
 
-// FIX THIS TO WORK ON THIS PAGE
-const removeFromFavourites = (jokeData: IJoke) => {
-    favouritesArray.value = favouritesArray.value.filter((favourite: IFavourite) => favourite.id !== jokeData.id)
-    favouritesInfo.value = favouritesInfo.value.filter((item: IJoke) => item !== jokeData)
-    localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
+const updateFavouritesInfo = (index: number) => {
+    favouritesInfo.value = favouritesInfo.value.filter(joke => joke.id !== index)
+    // console.log(favouritesInfo)
 }
-    
+
 onMounted(loadFavouriteStorage)
 onMounted(fetchData)
 
@@ -62,8 +58,7 @@ onMounted(fetchData)
             <p>{{ fav.joke }}</p>
             <p>{{ fav.category }}</p>
             <p>{{ fav.id }}</p>
-            <!-- change the below to load the JokeSaveData component -->
-            <button @click="removeFromFavourites(fav)">Get this shit out of here!</button>
+            <JokeSaveData :joke-data="fav" @update-favourites-info="updateFavouritesInfo" />
         </li>
     </ul>
 

@@ -1,15 +1,13 @@
 * {
-
   font-family: 'Inter', 'Segoe UI', 'system-ui', sans-serif;
 
-  --primary: var(#4CAF50);
-  --secondary: var(#F9A825);
-  --background: var(#F5F5F5);
-  --text: var(#212121);
-  --subtext: var(#616161);
-  --favourite: var(#FF5252);
-  --judgement: var(#FFD600);
-
+  --primary: #4CAF50;
+  --secondary: #F9A825;
+  --background: #F5F5F5;
+  --text: #212121;
+  --subtext: #616161;
+  --favourite: #FF5252;
+  --judgement: #FFD600;
 }
 
 h1 {
