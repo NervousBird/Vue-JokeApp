@@ -1,34 +1,11 @@
 <script setup lang="ts">
 import JokeFilters from '@/components/JokeFilters.vue';
-import type { IFavourite } from '@/favourite';
+import JokeSaveData from '@/components/JokeSaveData.vue';
 import type { IJoke } from '@/joke';
-import { onMounted, ref, watch } from 'vue';
-
-
-// LEAVE THESE EMPTY to ignore
-// https://v2.jokeapi.dev/joke/Any << will get ANY joke in english by default
-// category = ["Any","Programming","Miscellaneous","Dark","Pun","Spooky","Christmas"]
-// .../joke/Misc,Programming?
-// flags = {nsfw,religious,political,racist,sexist,explicit}
-// .../joke/Any?blacklistFlags=nsfw,racist,explicit
-// ?lang= cs, de, en, es, fr, pt
-// ?type= single, twopart (leave empty for both)
-// ?contains=string (only jokes containing this string)
-// idRange=number[-number] (0-55)
-// ?amount=number (how many jokes do we want returned? (only ever 1 for now?))
-// safe-mode (&safe-mode)
-// error: if there is an error
-// format=json (only use this)
-
-// Example: .../joke/Programming?blacklistFlags=nsfw&type=twopart
-//            {category} ? blacklistFlags= {flags} & type= {type} (ignore format)
+import { ref, watch } from 'vue';
 
 const filterString = ref('')
 const jokeData = ref<IJoke>()
-const favouritesArray = ref([])
-const storedFavourites = localStorage.getItem('favourites')
-const favourite = ref(false)
-const jokeRating = ref()
 
 const updateFilter = (info: string) => {
     filterString.value = info
@@ -43,48 +20,11 @@ const fetchData = () => {
         .then(data => jokeData.value = data)
 }
 
-const loadFavouriteStorage = () => {
-    if(storedFavourites && storedFavourites !== 'undefined') {
-        try {
-            favouritesArray.value = JSON.parse(storedFavourites)
-        } catch(error) {
-            console.log('Error parsing localStorage "favouritesArray:"', error)
-            localStorage.removeItem('favourites')
-        }
-    }
-}
+// watch(jokeData, () => {
+//     jokeData.value = jokeData.value
+// })
 
-const checkFavourite = () => {
-    if(favouritesArray.value.includes(jokeData.value.id)) {
-        favourite.value = true
-    } else {
-        favourite.value = false
-    }
-}
-
-const addToFavourites = () => {
-    if(jokeData.value === undefined) {
-        return alert('Load a joke first.')
-    }
-    if(!favouritesArray.value.includes(jokeData.value.id)) {
-        favouritesArray.value.push(jokeData.value.id)
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkFavourite()
-    } else {
-        favouritesArray.value = favouritesArray.value.filter((number: number) => number !== jokeData.value.id)
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkFavourite()
-    }
-    // else {
-    //     alert('Already favourited!')
-    // }
-}
-
-watch(jokeData, () => {
-    checkFavourite()
-})
-
-onMounted(loadFavouriteStorage)
+// onMounted(loadFavouriteStorage)
 
 </script>
 
@@ -92,23 +32,19 @@ onMounted(loadFavouriteStorage)
     <div>
         <h1>New Jokes!</h1>
     </div>
-    <!-- Joke filter here -->
-    <JokeFilters @update-filters="updateFilter" />
-    <!--  -->
+     <div>
+        <JokeFilters @update-filters="updateFilter" />
+     </div>
     <div>
       <h3>{{ jokeData?.setup }}</h3>
       <h3>{{ jokeData?.delivery }}</h3>
       <h3>{{ jokeData?.joke }}</h3>
-      <h4>{{ favourite }}</h4>
-      <div>
-        <input type="checkbox" name="ranking1" v-model="jokeRating">
-        <input type="checkbox" name="ranking2" v-model="jokeRating">
-        <input type="checkbox" name="ranking3" v-model="jokeRating">
-        <input type="checkbox" name="ranking4" v-model="jokeRating">
-        <input type="checkbox" name="ranking5" v-model="jokeRating">
-      </div>
-      <button @click="addToFavourites">I love this!</button>
+      <h3>{{ jokeData?.id }}</h3>
+      <!-- <h4>{{ favourite }}</h4> -->
       <button @click="fetchData">New Joke!</button>
+    </div>
+    <div>
+        <JokeSaveData v-if="jokeData" :joke-data="jokeData" />
     </div>
 </template>
 
@@ -118,6 +54,19 @@ form {
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.star {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.star.filled {
+    color: orange;
+}
+
+.star:hover {
+    color: blue;
 }
 
 </style>
