@@ -121,7 +121,6 @@ onMounted(loadFavouriteStorage)
 
 .container {
     display: block;
-    /* flex-direction: column; */
     justify-content: center;
     text-align: center;
 }
@@ -129,20 +128,26 @@ onMounted(loadFavouriteStorage)
 .star {
     cursor: pointer;
     font-size: 30px;
+    transition: all 0.3s ease-in-out;
 }
 
 .star.filled {
     color: orange;
+    scale: 1.05;
+    transition: all 0.2s ease-in-out;
 }
 
 .star:hover {
     color: blue;
+    scale: 1.1;
+    transition: all 0.1s ease-in-out;
 }
 
 .rating-container,
 .favourite-container {
     display: flex;
     justify-content: center;
+    align-self: baseline;
 }
 
 .bi-heart, .bi-heart-fill:hover {
