@@ -6,11 +6,11 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/newjokes">New Jokes!</RouterLink>
-        <RouterLink to="/favourites">Favourites</RouterLink>
-        <RouterLink to="/myjokes">My Jokes!</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink class="routerLink" to="/">Home</RouterLink>
+        <RouterLink class="routerLink" to="/newjokes">New Jokes!</RouterLink>
+        <RouterLink class="routerLink" to="/favourites">Favourites</RouterLink>
+        <RouterLink class="routerLink" to="/myjokes">My Jokes!</RouterLink>
+        <RouterLink class="routerLink" to="/about">About</RouterLink>
       </nav>
     </div>
   </header>
@@ -19,5 +19,30 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 60px;
+  background-color: color-mix(in srgb, var(--primary), var(--background)50%);
+  box-shadow: -1px -1px 8px 1px color-mix(in srgb, var(--text), var(--background)70%);
+  padding: 20px;
+  margin-bottom: 30px;
+  
+}
+
+.routerLink {
+  background-color: transparent;
+  text-decoration: none;
+  transition: scale 0.1s ease-in-out;
+}
+
+.routerLink:hover {
+  scale: 1.05;
+  color: var(--secondary);
+  transition: scale 0.1s ease-in-out;
+}
 
 </style>

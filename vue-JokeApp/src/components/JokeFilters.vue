@@ -74,69 +74,121 @@ onMounted(() => {
 </script>
 
 <template>
-  <form @change="emit('updateFilters', filterString)">
-    <p>Select Categories:</p>
-    <!-- Just need to make a function to print the right string -->
-    <label for="any">Any</label>
-    <input ref="anyCategory" type="checkbox" name="any" value="Any" v-model="categoryString" />
-    <label for="programming">Programming</label>
-    <input type="checkbox" name="programming" value="Programming" v-model="categoryString" />
-    <label for="miscellaneous">Miscellaneous</label>
-    <input type="checkbox" name="miscellaneous" value="Miscellaneous" v-model="categoryString" />
-    <label for="dark">Dark</label>
-    <input type="checkbox" name="dark" value="Dark" v-model="categoryString" />
-    <label for="pun">Pun</label>
-    <input type="checkbox" name="pun" value="Pun" v-model="categoryString" />
-    <label for="spooky">Spooky</label>
-    <input type="checkbox" name="spooky" value="Spooky" v-model="categoryString" />
-    <label for="christmas">Christmas</label>
-    <input type="checkbox" name="christmas" value="Christmas" v-model="categoryString" />
-  </form>
-  <form @change="emit('updateFilters', filterString)">
-    <p>Select Blacklist Flags:</p>
-    <label for="all">All</label>
-    <input ref="allFlags" type="checkbox" name="all" value="all" v-model="categoryFlag" />
-    <label for="nsfw">NSFW</label>
-    <input type="checkbox" name="nsfw" value="nsfw" v-model="categoryFlag" />
-    <label for="religious">Religious</label>
-    <input type="checkbox" name="religious" value="religious" v-model="categoryFlag" />
-    <label for="political">Political</label>
-    <input type="checkbox" name="political" value="political" v-model="categoryFlag" />
-    <label for="racist">Racist</label>
-    <input type="checkbox" name="racist" value="racist" v-model="categoryFlag" />
-    <label for="sexist">Sexist</label>
-    <input type="checkbox" name="sexist" value="sexist" v-model="categoryFlag" />
-    <label for="explicit">Explicit</label>
-    <input type="checkbox" name="explicit" value="explicit" v-model="categoryFlag" />
-  </form>
-  <!-- <form @change="emit('updateFilters', filterString)">
-        <p>Select Language:</p>
-        <select v-model="categoryLanguage">
-            <option>en</option>
-            <option>cs</option>
-            <option>es</option>
-            <option>de</option>
-            <option>fr</option>
-            <option>pt</option>
-        </select>
-    </form> -->
-  <form @change="emit('updateFilters', filterString)">
-    <p>Select Type:</p>
-    <label for="both">Both</label>
-    <input ref="jokeType" type="radio" name="1" value="both" v-model="categoryType" />
-    <label for="both">One-liner</label>
-    <input type="radio" name="2" value="single" v-model="categoryType" />
-    <label for="both">Two-parter</label>
-    <input type="radio" name="3" value="twopart" v-model="categoryType" />
-  </form>
-  <!-- <form @change="emit('updateFilters', filterString)">
-        <p>Search for Joke Containing:</p>
-        <input v-model="searchInput" placeholder="type here">
-    </form>
-    <form @change="emit('updateFilters', filterString)">
-        <p>Search Joke by Number:</p>
-        <input v-model.number="jokeNumber" placeholder="between 0-1300">
-    </form> -->
+  <div class="container">
+    <div class="container-categories">
+      <h2>Select Categories:</h2>
+      <form @change="emit('updateFilters', filterString)">
+        <label for="any">Any</label>
+        <input ref="anyCategory" type="checkbox" name="any" id="any" value="Any" v-model="categoryString" />
+        <label for="programming">Programming</label>
+        <input type="checkbox" name="programming" id="programming" value="Programming" v-model="categoryString" />
+        <label for="miscellaneous">Miscellaneous</label>
+        <input type="checkbox" name="miscellaneous" id="miscellaneous" value="Miscellaneous" v-model="categoryString" />
+        <label for="dark">Dark</label>
+        <input type="checkbox" name="dark" id="dark" value="Dark" v-model="categoryString" />
+        <label for="pun">Pun</label>
+        <input type="checkbox" name="pun" id="pun" value="Pun" v-model="categoryString" />
+        <label for="spooky">Spooky</label>
+        <input type="checkbox" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
+        <label for="christmas">Christmas</label>
+        <input type="checkbox" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
+      </form>
+    </div>
+    <div class="container-flags">
+      <h2>Select Blacklist Flags:</h2>
+      <form @change="emit('updateFilters', filterString)">
+        <label for="all">All</label>
+        <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
+        <label for="nsfw">NSFW</label>
+        <input type="checkbox" name="nsfw" id="nsfw" value="nsfw" v-model="categoryFlag" />
+        <label for="religious">Religious</label>
+        <input type="checkbox" name="religious" id="religious" value="religious" v-model="categoryFlag" />
+        <label for="political">Political</label>
+        <input type="checkbox" name="political" id="political" value="political" v-model="categoryFlag" />
+        <label for="racist">Racist</label>
+        <input type="checkbox" name="racist" id="racist" value="racist" v-model="categoryFlag" />
+        <label for="sexist">Sexist</label>
+        <input type="checkbox" name="sexist" id="sexist" value="sexist" v-model="categoryFlag" />
+        <label for="explicit">Explicit</label>
+        <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
+      </form>
+    </div>
+    <!-- <form @change="emit('updateFilters', filterString)">
+          <p>Select Language:</p>
+          <select v-model="categoryLanguage">
+              <option>en</option>
+              <option>cs</option>
+              <option>es</option>
+              <option>de</option>
+              <option>fr</option>
+              <option>pt</option>
+          </select>
+      </form> -->
+    <div class="container-type">
+      <h2>Select Type:</h2>
+      <form @change="emit('updateFilters', filterString)">
+        <label for="1">Both</label>
+        <input ref="jokeType" type="radio" name="1" id="1" value="both" v-model="categoryType" />
+        <label for="2">One-liner</label>
+        <input type="radio" name="2" id="2" value="single" v-model="categoryType" />
+        <label for="3">Two-parter</label>
+        <input type="radio" name="3" id="3" value="twopart" v-model="categoryType" />
+      </form>
+    </div>
+    <!-- <form @change="emit('updateFilters', filterString)">
+          <p>Search for Joke Containing:</p>
+          <input v-model="searchInput" placeholder="type here">
+      </form>
+      <form @change="emit('updateFilters', filterString)">
+          <p>Search Joke by Number:</p>
+          <input v-model.number="jokeNumber" placeholder="between 0-1300">
+      </form> -->    
+  </div>
+
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  background-color: var(--background);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 30px;
+  border: 2px solid var(--subtext);
+  border-radius: 5px;
+  max-width: 75vw;
+  box-shadow: 0px 4px 4px 2px var(--subtext);
+}
+
+.container-categories,
+.container-flags,
+.container-type {
+  display: block;
+  justify-content: center;
+  align-items: baseline;
+  text-align: center;
+  gap: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+}
+
+input {
+  color: var(--text);
+  background-color: var(--favourite);
+  border: 3px solid black;
+  border-radius: 100%;
+  box-sizing: content-box;
+}
+
+
+
+</style>

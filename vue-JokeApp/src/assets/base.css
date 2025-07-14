@@ -1,5 +1,15 @@
+.inter-regular {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
   font-family: 'Inter', 'Segoe UI', 'system-ui', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
 
   --primary: #4CAF50;
   --secondary: #F9A825;
@@ -8,6 +18,12 @@
   --subtext: #616161;
   --favourite: #FF5252;
   --judgement: #FFD600;
+
+  background-color: var(--background);
+}
+
+#app {
+  margin: 0px;
 }
 
 h1 {
@@ -16,10 +32,12 @@ h1 {
 
 h2 {
   font-size: 1.5rem;
+  color: var(--primary);
 }
 
 body {
   font-size: 1rem;
+  margin: 0px;
 }
 
 nav {
