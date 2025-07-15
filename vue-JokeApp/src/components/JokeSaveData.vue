@@ -106,15 +106,23 @@ onUpdated(loadInfo)
     color: var(--subtext);
     font-size: 30px;
     animation: bounce-in 0.5s ease-in-out;
+    transition: color 0.2s ease-in-out;
 }
 
 .star.filled {
     color: var(--judgement);
     animation: bounce-in 0.5s ease-in-out;
+    transition: color 0.2s ease-in-out;
 }
 
 .star:hover {
     color: var(--favourite);
+    transition: color 0.2s ease-in-out;
+}
+
+.star.filled:hover {
+    color: color-mix(in srgb, var(--favourite), var(--judgement) 30%);
+    transition: color 0.2s ease-in-out;
 }
 
 .rating-container,

@@ -15,7 +15,10 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
   </header>
 
-  <RouterView />
+  <Transition name="fade">
+    <RouterView />
+  </Transition>
+
 </template>
 
 <style scoped>
@@ -34,6 +37,7 @@ nav {
 }
 
 .routerLink {
+  color: var(--text);
   background-color: transparent;
   text-decoration: none;
   transition: scale 0.1s ease-in-out;
@@ -43,6 +47,16 @@ nav {
   scale: 1.05;
   color: var(--secondary);
   transition: scale 0.1s ease-in-out;
+}
+
+.fade-move,
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 
 </style>

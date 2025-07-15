@@ -15,10 +15,15 @@ const getInfo = () => {
   <main>
     <h1>Home!</h1>
   </main>
-  <div>
-    <p>{{ info }}</p>
-    <button @click="getInfo">GetInfo</button>
+  <div class="container">
+    <div class="container-overview">
+
+    </div>
+    <div class="container-links">
+
+    </div>
   </div>
+
 </template>
 
 <style scoped>
