@@ -113,21 +113,21 @@ onMounted(loadMyJokesStorage)
         <h1>My Jokes!</h1>
     </div>
     <div class="container">
-        <div class="container-catergories">
+        <div class="container-categories">
             <h3>Select Categories:</h3>
             <form>
-            <label for="programming">Programming</label>
-            <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
-            <label for="miscellaneous">Miscellaneous</label>
-            <input type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous" v-model="categoryString" />
-            <label for="dark">Dark</label>
-            <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
-            <label for="pun">Pun</label>
-            <input type="radio" name="pun" id="pun" value="Pun" v-model="categoryString" />
-            <label for="spooky">Spooky</label>
-            <input type="radio" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
-            <label for="christmas">Christmas</label>
-            <input type="radio" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
+                <label for="programming">Programming</label>
+                <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
+                <label for="miscellaneous">Miscellaneous</label>
+                <input type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous" v-model="categoryString" />
+                <label for="dark">Dark</label>
+                <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
+                <label for="pun">Pun</label>
+                <input type="radio" name="pun" id="pun" value="Pun" v-model="categoryString" />
+                <label for="spooky">Spooky</label>
+                <input type="radio" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
+                <label for="christmas">Christmas</label>
+                <input type="radio" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
             </form>
         </div>
         <div class="container-flags">
