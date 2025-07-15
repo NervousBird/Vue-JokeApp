@@ -130,7 +130,7 @@ ul {
     background-color: var(--background);
     border: 2px solid var(--subtext);
     border-radius: 5%;
-    box-shadow: 0px 4px 4px 2px var(--subtext);
+    box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 50%);
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
