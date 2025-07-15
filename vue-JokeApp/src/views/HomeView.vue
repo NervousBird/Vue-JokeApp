@@ -18,7 +18,7 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero maxime a voluptates possimus rem soluta, inventore, consequatur enim eius, ducimus odit quas. Accusantium, atque cupiditate molestiae sequi ab facere excepturi?</p>
           </div>
         </div>
-          <div class="container-links">
+          <div class="container-reviews">
             <div class="container-review">
               <div class="container-rating">
                 <i class="bi bi-star-fill"></i>
@@ -63,6 +63,7 @@
 .container-review {
   display: block;
   width: 100%;
+  max-width: 300px;
 }
 .bi-star-fill {
   color: var(--judgement);
@@ -83,6 +84,8 @@
   grid-template-columns: 1fr .5fr;
   padding: 20px;
   margin: 10px;
+  margin-left: 3vw;
+  margin-right: 3vw;
   gap: 30px;
 }
 
@@ -97,11 +100,12 @@ p {
   text-align: left;
 }
 
-.container-links {
+.container-reviews {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 30px;
 }
 
 .fade-move,
