@@ -15,10 +15,7 @@ const updateFilter = (info: string) => {
     filterString.value = info
 }
 
-// Simple GET request using fetch
 const fetchData = async () => {
-    //.../joke/({category}?)({blacklistFlags={flags}}&)type={type}
-    // Need to create a 'catch' function for the filters
     fetch(`https://v2.jokeapi.dev/joke/${filterString.value}`)
         .then(response => response.json())
         .then(data => jokeData.value = data)
@@ -58,10 +55,6 @@ onMounted(loadFavouriteStorage)
             <h3>{{ jokeData?.setup }}</h3>
             <h3>{{ jokeData?.delivery }}</h3>
             <h3>{{ jokeData?.joke }}</h3>
-            <!-- <h3>{{ jokeData?.id }}</h3> -->
-            <!-- <h4>{{ favourite }}</h4> -->
-             <!-- <p>{{ filterString }}</p>
-             <p>{{ jokeData }}</p> -->
         </div>
     </TransitionGroup>
     <div class="container-buttons">

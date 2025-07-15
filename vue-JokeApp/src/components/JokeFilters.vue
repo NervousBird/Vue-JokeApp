@@ -71,6 +71,7 @@ onMounted(() => {
   createFilterString()
   emit('updateFilters', filterString)
 })
+
 </script>
 
 <template>
@@ -177,6 +178,7 @@ form {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 10px;
