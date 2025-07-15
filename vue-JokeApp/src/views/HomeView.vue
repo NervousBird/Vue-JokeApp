@@ -23,7 +23,6 @@ const getInfo = () => {
 
     </div>
   </div>
-
 </template>
 
 <style scoped>

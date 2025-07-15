@@ -5,7 +5,7 @@ import { computed, onMounted, ref } from 'vue';
 const myJokesArray = ref<IJoke[]>([])
 const storedJokes = localStorage.getItem('myJokes')
 const categoryString = ref('miscellaneous')
-const categoryFlag = ref([])
+const categoryFlag = ref<string[]>([])
 const categoryType = ref('twopart')
 const newJoke = ref<IJoke>()
 const setup = ref('')
@@ -84,6 +84,9 @@ const createJoke = () => {
     }
     myJokesArray.value.push(newJoke.value)
     localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+    setup.value = ''
+    delivery.value = ''
+    joke.value = ''
 }
 
 const typeTwoParts = computed(() => {
@@ -107,7 +110,6 @@ onMounted(loadMyJokesStorage)
 </script>
 
 <template>
-
     <div class="container-title">
         <h1>My Jokes!</h1>
     </div>
@@ -210,6 +212,7 @@ onMounted(loadMyJokesStorage)
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    align-items: center;
     margin: 30px;
     padding: 10px;
     gap: 10px;
@@ -244,6 +247,12 @@ button:hover {
     border-radius: 10px;
     padding: 10px;
     transition: background-color 0.2s ease-in-out;
+}
+
+input[type='text'] {
+    max-width: 800px;
+    min-width: 500px;
+    padding: 10px;
 }
 
 </style>
