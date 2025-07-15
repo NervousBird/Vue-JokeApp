@@ -1,100 +1,68 @@
 <script setup lang="ts">
 import type { IFavourite } from '@/favourite';
 import type { IJoke } from '@/joke';
-import { onMounted, ref, TransitionGroup, watch } from 'vue';
+import { onMounted, onUpdated, ref, watch } from 'vue';
 
 const props = defineProps<{
   jokeData: IJoke
+  favouritesData: IFavourite[]
 }>()
 
+// This is being used to update the array in favourites, so the item gets removed in real time
 const emit = defineEmits<{
-    (event: 'updateFavouritesInfo', info: number): void
+    (event: 'updateFavouritesInfo', info: IFavourite, index: number): void
 }>()
 
-// const jokeData = ref<IJoke>()
-const favouritesArray = ref<IFavourite[]>([])
-const storedFavourites = localStorage.getItem('favourites')
-const favourite = ref(false)
 const ratingTotal = ref(5)
 const jokeRating = ref(0)
+const favourite = ref(false)
+const favouriteEmitData = ref<IFavourite>()
+let index = 0
 
-// Everything below should be moved onto a component?
-const loadFavouriteStorage = () => {
-    if(storedFavourites && storedFavourites !== 'undefined') {
-        try {
-            favouritesArray.value = JSON.parse(storedFavourites)
-        } catch(error) {
-            console.log('Error parsing localStorage "favouritesArray:"', error)
-            localStorage.removeItem('favourites')
-        }
-    }
-}
-
-// Change this to check whether the item in the local storage has {favourite: true}, not just if it exists
-// also check for the rating
-const checkSavedInfo = (jokeData: IJoke) => {
-    const favouritesIDs = favouritesArray.value.map(item => item.id)
-    if(favouritesIDs.includes(jokeData.id)) {
-        const index = favouritesArray.value.findIndex((favourite) => favourite.id === jokeData.id)
-        favourite.value = favouritesArray.value[index].favourite || false
-        jokeRating.value = favouritesArray.value[index].rating || 0
-    }
-}
-
-const toggleFavourite = (jokeData: IJoke) => {
-    // Hopefully not needed? Figure out to search through complex arrays
-    const favouritesIDs = favouritesArray.value.map(item => item.id)
-    if(!favouritesIDs.includes(jokeData.id)) {
-        favouritesArray.value.push({
-            id: jokeData.id,
-            rating: jokeRating.value,
-            favourite: true,
-        })
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkSavedInfo(jokeData)
+const toggleFavourite = () => {
+    if(favourite.value === true) {
+        favourite.value = false
     } else {
-        const index = favouritesArray.value.findIndex((favourite) => favourite.id === jokeData.id)
-        if(favouritesArray.value[index].favourite === false) {
-            favouritesArray.value[index].favourite = true
-        } else {
-            favouritesArray.value[index].favourite = false
-        }
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkSavedInfo(jokeData)
+        favourite.value = true
     }
-    emit('updateFavouritesInfo', jokeData.id)
 }
 
-const setRating = (star: number, jokeData: IJoke) => {
+const setRating = (star: number) => {
     jokeRating.value = star
-    const favouritesIDs = favouritesArray.value.map(item => item.id)
-    if(!favouritesIDs.includes(jokeData.id)) {
-        // Edit the data in the array and ONLY update the rating system
-        favouritesArray.value.push({
-            id: jokeData.id, 
-            rating: jokeRating.value,
-            favourite: false,
-        })
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkSavedInfo(jokeData)
+}
+
+const loadInfo = () => {
+    console.log(props.jokeData.id)
+    index = props.favouritesData.findIndex((favourite) => favourite.id === props.jokeData.id)
+    if(index >= 0) {
+        jokeRating.value = props.favouritesData[index].rating
+        favourite.value = props.favouritesData[index].favourite
+        favouriteEmitData.value = props.favouritesData[index]  
     } else {
-        const index = favouritesArray.value.findIndex((favourite) => favourite.id === jokeData.id)
-        favouritesArray.value[index].rating = jokeRating.value
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-        checkSavedInfo(jokeData)
+        jokeRating.value = 0
+        favourite.value = false
+        favouriteEmitData.value = {id: props.jokeData.id, rating: 0, favourite: false}
     }
+}
+
+const emitData = () => {
+    index = props.favouritesData.findIndex((favourite) => favourite.id === props.jokeData.id)
+    favouriteEmitData.value = {
+        id: favouriteEmitData.value.id,
+        rating: jokeRating.value, 
+        favourite: favourite.value
+    }
+    emit('updateFavouritesInfo', favouriteEmitData.value, index)
 }
 
 // Expand this to update when loading a new joke (load the correct rating as well)
-watch(() => props.jokeData, (newValue, oldValue) => {
-    jokeRating.value = 0
-    favourite.value = false
-    loadFavouriteStorage()
-    checkSavedInfo(props.jokeData)
-    console.log('updated data')
-}, {immediate: true})
+watch([jokeRating, favourite, props.jokeData], () => {
+    console.log(props.jokeData.id)
+    emitData()
+})
 
-onMounted(loadFavouriteStorage)
+onMounted(loadInfo)
+onUpdated(loadInfo)
 
 </script>
 
@@ -102,47 +70,59 @@ onMounted(loadFavouriteStorage)
     <div class="container">
         <div class="rating-container">
         <!-- ratingTotal needs to be a prop, as well as the jokeRating, also an emit function to update on the parent -->
-            <span v-for="star in ratingTotal" :key="star" class="star" :class="{ filled: star <= jokeRating }" @click="setRating(star, jokeData)">
-                ★
+            <span v-for="star in ratingTotal" :key="star" class="star" :class="{ filled: star <= jokeRating }" @click="setRating(star)">
+                <Transition name="bounce">
+                    <i class="bi bi-star-fill"></i>
+                </Transition>
             </span>
         </div>
         <div class="favourite-container">
             <Transition name="bounce">
-                <i class="bi bi-heart" v-if="!favourite" @click="toggleFavourite(props.jokeData)"></i>
+                <i class="bi bi-heart" v-if="!favourite" @click="toggleFavourite"></i>
             </Transition>
             <Transition name="bounce">
-                <i class="bi bi-heart-fill" v-if="favourite" @click="toggleFavourite(props.jokeData)"></i>
+                <i class="bi bi-heart-fill" v-if="favourite" @click="toggleFavourite"></i>
             </Transition>
-        </div>        
+        </div>
     </div>
 </template>
 
 <style scoped>
+* {
+    background-color: transparent;
+}
 
 .container {
     display: block;
     /* flex-direction: column; */
     justify-content: center;
     text-align: center;
+    padding-top: 0px;
+    padding-bottom: 30px;
 }
 
 .star {
     cursor: pointer;
+    color: var(--subtext);
     font-size: 30px;
+    animation: bounce-in 0.5s ease-in-out;
 }
 
 .star.filled {
-    color: orange;
+    color: var(--judgement);
+    animation: bounce-in 0.5s ease-in-out;
 }
 
 .star:hover {
-    color: blue;
+    color: var(--favourite);
 }
 
 .rating-container,
 .favourite-container {
     display: flex;
     justify-content: center;
+    gap: 5px;
+    padding: 5px;
 }
 
 .bi-heart, .bi-heart-fill:hover {
