@@ -109,60 +109,140 @@ onMounted(loadMyJokesStorage)
 
 <template>
 
-    <div>
+    <div class="container-title">
         <h1>My Jokes!</h1>
     </div>
-    <h3>Select Categories:</h3>
-    <div>
-      <label for="programming">Programming</label>
-      <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
-      <label for="miscellaneous">Miscellaneous</label>
-      <input type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous" v-model="categoryString" />
-      <label for="dark">Dark</label>
-      <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
-      <label for="pun">Pun</label>
-      <input type="radio" name="pun" id="pun" value="Pun" v-model="categoryString" />
-      <label for="spooky">Spooky</label>
-      <input type="radio" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
-      <label for="christmas">Christmas</label>
-      <input type="radio" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
+    <div class="container">
+        <div class="container-catergories">
+            <h3>Select Categories:</h3>
+            <form>
+            <label for="programming">Programming</label>
+            <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
+            <label for="miscellaneous">Miscellaneous</label>
+            <input type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous" v-model="categoryString" />
+            <label for="dark">Dark</label>
+            <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
+            <label for="pun">Pun</label>
+            <input type="radio" name="pun" id="pun" value="Pun" v-model="categoryString" />
+            <label for="spooky">Spooky</label>
+            <input type="radio" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
+            <label for="christmas">Christmas</label>
+            <input type="radio" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
+            </form>
+        </div>
+        <div class="container-flags">
+            <h3>Select Flags:</h3>
+            <form>
+                <label for="all">All</label>
+                <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
+                <label for="nsfw">NSFW</label>
+                <input type="checkbox" name="nsfw" id="nsfw" value="nsfw" v-model="categoryFlag" />
+                <label for="religious">Religious</label>
+                <input type="checkbox" name="religious" id="religious" value="religious" v-model="categoryFlag" />
+                <label for="political">Political</label>
+                <input type="checkbox" name="political" id="political" value="political" v-model="categoryFlag" />
+                <label for="racist">Racist</label>
+                <input type="checkbox" name="racist" id="racist" value="racist" v-model="categoryFlag" />
+                <label for="sexist">Sexist</label>
+                <input type="checkbox" name="sexist" id="sexist" value="sexist" v-model="categoryFlag" />
+                <label for="explicit">Explicit</label>
+                <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
+                </form>
+        </div>
+        <div class="container-type">
+            <h3>Select Type:</h3>
+            <form>
+            <label for="single">One-liner</label>
+            <input type="radio" name="single" id="single" value="single" v-model="categoryType" />
+            <label for="twopart">Two-parter</label>
+            <input type="radio" name="twopart" id="twopart" value="twopart" v-model="categoryType" />
+            </form>
+        </div>
+        <!-- <JokeFilters @update-filters="updateFilter" /> -->
+        <div>
+            <label v-if="typeTwoParts" for="setup">Setup</label>
+            <input v-if="typeTwoParts" type="text" name="setup" id="setup" v-model="setup">
+            <label v-if="typeTwoParts" for="delivery">Delivery</label>
+            <input v-if="typeTwoParts" type="text" name="delivery" id="delivery" v-model="delivery">
+            <label v-if="typeOnePart" for="joke">Joke</label>
+            <input v-if="typeOnePart" type="text" name="joke" id="joke" v-model="joke">
+        </div>
     </div>
-    <h3>Select Flags:</h3>
-    <div>
-      <label for="all">All</label>
-      <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
-      <label for="nsfw">NSFW</label>
-      <input type="checkbox" name="nsfw" id="nsfw" value="nsfw" v-model="categoryFlag" />
-      <label for="religious">Religious</label>
-      <input type="checkbox" name="religious" id="religious" value="religious" v-model="categoryFlag" />
-      <label for="political">Political</label>
-      <input type="checkbox" name="political" id="political" value="political" v-model="categoryFlag" />
-      <label for="racist">Racist</label>
-      <input type="checkbox" name="racist" id="racist" value="racist" v-model="categoryFlag" />
-      <label for="sexist">Sexist</label>
-      <input type="checkbox" name="sexist" id="sexist" value="sexist" v-model="categoryFlag" />
-      <label for="explicit">Explicit</label>
-      <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
+    <div class="container-buttons">
+        <button @click="submitNewJoke">Submit Joke</button>
     </div>
-    <h3>Select Type:</h3>
-    <div>
-      <label for="single">One-liner</label>
-      <input type="radio" name="single" id="single" value="single" v-model="categoryType" />
-      <label for="twopart">Two-parter</label>
-      <input type="radio" name="twopart" id="twopart" value="twopart" v-model="categoryType" />
-    </div>
-    <!-- <JokeFilters @update-filters="updateFilter" /> -->
-    <div>
-        <label v-if="typeTwoParts" for="setup">Setup</label>
-        <input v-if="typeTwoParts" type="text" name="setup" id="setup" v-model="setup">
-        <label v-if="typeTwoParts" for="delivery">Delivery</label>
-        <input v-if="typeTwoParts" type="text" name="delivery" id="delivery" v-model="delivery">
-        <label v-if="typeOnePart" for="joke">Joke</label>
-        <input v-if="typeOnePart" type="text" name="joke" id="joke" v-model="joke">
-    </div>
-    <button @click="submitNewJoke">Submit New Joke</button>
 </template>
 
 <style scoped>
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  background-color: var(--background);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 30px;
+  border: 2px solid var(--subtext);
+  border-radius: 5px;
+  max-width: 75vw;
+  box-shadow: 0px 4px 4px 2px var(--subtext);
+}
+
+.container-title {
+    text-align: center;
+}
+
+.container-categories,
+.container-flags,
+.container-type {
+  display: block;
+  justify-content: center;
+  align-items: baseline;
+  text-align: center;
+  gap: 10px;
+}
+
+.container-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    gap: 20px;
+    width: 200px;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+
+button {
+    background-color: var(--primary);
+    color: var(--background);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 150px;
+    height: 50px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--judgement);
+    color: var(--text);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    transition: background-color 0.2s ease-in-out;
+}
 
 </style>
