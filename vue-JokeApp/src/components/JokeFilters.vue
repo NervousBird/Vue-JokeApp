@@ -161,7 +161,7 @@ onMounted(() => {
   border: 2px solid var(--subtext);
   border-radius: 5px;
   max-width: 75vw;
-  box-shadow: 0px 4px 4px 2px var(--subtext);
+  box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 50%);
 }
 
 .container-categories,
@@ -180,7 +180,9 @@ form {
   justify-content: center;
   flex-wrap: wrap;
   align-items: baseline;
+  flex-wrap: wrap;
   gap: 10px;
+
 }
 
 input {
