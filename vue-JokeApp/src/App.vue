@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
@@ -15,13 +16,19 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
   </header>
 
-  <Transition name="fade">
-    <RouterView />
-  </Transition>
-
+  <div class="router-view">
+    <Transition name="fade">
+      <RouterView />
+    </Transition>
+  </div>
+  
+  <Footer />
 </template>
 
 <style scoped>
+.router-view {
+  min-height: 70vh;
+}
 
 nav {
   display: flex;

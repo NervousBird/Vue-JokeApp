@@ -14,7 +14,6 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
 </script>
 
 <template>
-
     <div class="container-title">
         <h1>Favourites</h1>
     </div>
@@ -43,14 +42,10 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
                 </li>
             </ul>
         </TransitionGroup>
-        
     </div>
-    
-
 </template>
 
 <style scoped>
-
 ul {
     padding-inline-start: 0px;
 }
