@@ -17,9 +17,7 @@ import Footer from '@/components/Footer.vue'
   </header>
 
   <div class="router-view">
-    <Transition name="fade">
-      <RouterView />
-    </Transition>
+    <RouterView />
   </div>
   
   <Footer />
@@ -59,7 +57,7 @@ nav {
 .fade-move,
 .fade-enter-active,
 .fade-leave-active {
-    transition: all 5s ease;
+    transition: all 1s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
