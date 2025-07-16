@@ -32,13 +32,14 @@ const setRating = (star: number) => {
 }
 
 const loadInfo = () => {
-    console.log(props.jokeData.id)
     index = props.favouritesData.findIndex((favourite) => favourite.id === props.jokeData.id)
+    // Update the visual refs to reflect the saved data
     if(index >= 0) {
         jokeRating.value = props.favouritesData[index].rating
         favourite.value = props.favouritesData[index].favourite
         favouriteEmitData.value = props.favouritesData[index]  
     } else {
+        // If the joke doesn't exist in favourites, then set the rating and favourites to 0 for the visuals
         jokeRating.value = 0
         favourite.value = false
         favouriteEmitData.value = {id: props.jokeData.id, rating: 0, favourite: false}
@@ -57,7 +58,6 @@ const emitData = () => {
 
 // Expand this to update when loading a new joke (load the correct rating as well)
 watch([jokeRating, favourite, props.jokeData], () => {
-    console.log(props.jokeData.id)
     emitData()
 })
 

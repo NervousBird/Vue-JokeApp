@@ -2,46 +2,36 @@
 import JokeFilters from '@/components/JokeFilters.vue';
 import JokeSaveData from '@/components/JokeSaveData.vue';
 import type { IFavourite } from '@/favourite';
-import type { IJoke } from '@/joke';
-import { onMounted, ref } from 'vue';
+import { useFetch } from '@/fetch';
+import { useLocalStorage } from '@/localStorage';
+import { ref } from 'vue';
 
-const favouritesArray = ref<IFavourite[]>([])
-const storedFavourites = localStorage.getItem('favourites')
-
-const filterString = ref('')
-const jokeData = ref<IJoke>()
+const {favouritesArray} = useLocalStorage()
+const filterString = ref('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
+const filterInfo = ref('')
+const {data, error} = useFetch(filterString)
 
 const updateFilter = (info: string) => {
-    filterString.value = info
+    filterString.value = 'https://v2.jokeapi.dev/joke/' + info
+    filterInfo.value = filterString.value
 }
 
-const fetchData = async () => {
-    fetch(`https://v2.jokeapi.dev/joke/${filterString.value}`)
-        .then(response => response.json())
-        .then(data => jokeData.value = data)
-}
-
-const loadFavouriteStorage = () => {
-    if(storedFavourites && storedFavourites !== 'undefined') {
-        try {
-            favouritesArray.value = JSON.parse(storedFavourites)
-        } catch(error) {
-            console.log('Error parsing localStorage "favouritesArray:"', error)
-            localStorage.removeItem('favourites')
-        }
-    }
+const fetchData = () => {
+    filterString.value = ''
+    filterString.value = filterInfo.value
 }
 
 const receiveFavouritesData = (fav: IFavourite, index: number) => {
+    // If it already exists in favouritesArray, update values
     if(index >= 0) {
         favouritesArray.value[index] = {id: fav.id, rating: fav.rating, favourite: fav.favourite}
-    } else if(fav.favourite === true || fav.rating > 0) {
+    } 
+    // Otherwise add to the Array and save
+    else if(fav.favourite === true || fav.rating > 0) {
         favouritesArray.value.push({id: fav.id, rating: fav.rating, favourite: fav.favourite})
     }
     localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
 }
-
-onMounted(loadFavouriteStorage)
 
 </script>
 
@@ -50,15 +40,16 @@ onMounted(loadFavouriteStorage)
         <h1>New Jokes!</h1>
     </div>
     <JokeFilters @update-filters="updateFilter" />
+    <div v-if="error">Opps! Error encountered: {{ error.message }}</div>
     <TransitionGroup name="bounce">
-        <div v-if="jokeData" class="container-joke">
-            <h3>{{ jokeData?.setup }}</h3>
-            <h3>{{ jokeData?.delivery }}</h3>
-            <h3>{{ jokeData?.joke }}</h3>
+        <div v-if="data" class="container-joke">
+            <h3>{{ data?.setup }}</h3>
+            <h3>{{ data?.delivery }}</h3>
+            <h3>{{ data?.joke }}</h3>
         </div>
     </TransitionGroup>
     <div class="container-buttons">
-        <JokeSaveData v-if="jokeData" :joke-data="jokeData" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" />
+        <JokeSaveData v-if="data" :joke-data="data" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" />
         <button @click="fetchData">New Joke!</button>
     </div>
 </template>

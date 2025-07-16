@@ -1,22 +1,10 @@
-import type { IFavourite } from '@/favourite'
 import type { IJoke } from '@/joke'
 import { onMounted, ref } from 'vue'
+import { useLocalStorage } from './localStorage'
 
 export function getFavouriteAPIData(filterString: string) {
-    const favouritesArray = ref<IFavourite[]>([])
-    const storedFavourites = localStorage.getItem('favourites')
+    const {favouritesArray} = useLocalStorage()
     const jokeInfoArray = ref<IJoke[]>([])
-
-    const loadFavouriteStorage = () => {
-        if(storedFavourites && storedFavourites !== 'undefined') {
-            try {
-                favouritesArray.value = JSON.parse(storedFavourites)
-            } catch(error) {
-                console.log('Error parsing localStorage "favouritesArray:"', error)
-                localStorage.removeItem('favourites')
-            }
-        }
-    }
 
     const fetchData = async () => {
         // filtering based on if the joke is favourited or not
@@ -29,7 +17,6 @@ export function getFavouriteAPIData(filterString: string) {
         })
     }
 
-    onMounted(loadFavouriteStorage)
     onMounted(fetchData)
 
     return {jokeInfoArray, favouritesArray}

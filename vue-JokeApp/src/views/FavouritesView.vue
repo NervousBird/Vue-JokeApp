@@ -26,19 +26,18 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
             <button>Category</button>
             <button>Unsorted</button>
         </div>
-        
     </div>
     <div class="container-favourites">
         <TransitionGroup name="bounce">
-            <ul class="container-favourites-cards" v-for="jokeData in jokeInfoArray" :key="jokeData.id">
+            <ul class="container-favourites-cards" v-for="data in jokeInfoArray" key="test">
                 <li class="favourite-card">
                     <!-- Calculate what to generate, otherwise empty fields are causing weird spacing -->
-                    <h3>{{ jokeData.setup }}</h3>
-                    <h3>{{ jokeData.delivery }}</h3>
-                    <h3>{{ jokeData.joke }}</h3>
-                    <p>{{ jokeData.category }}</p>
-                    <p>{{ jokeData.id }}</p>
-                    <JokeSaveData :joke-data="jokeData" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" />
+                    <h3>{{ data.setup }}</h3>
+                    <h3>{{ data.delivery }}</h3>
+                    <h3>{{ data.joke }}</h3>
+                    <p>{{ data.category }}</p>
+                    <p>{{ data.id }}</p>
+                    <JokeSaveData :joke-data="data" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" />
                 </li>
             </ul>
         </TransitionGroup>
