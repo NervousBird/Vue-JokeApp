@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { IFavourite } from '@/favourite'
 import JokeSaveData from '@/components/JokeSaveData.vue'
-import { getFavouriteAPIData } from '@/favouriteStorage'
+import { useFavouriteAPIData } from '@/useFavouriteStorage'
 
-const {jokeInfoArray, favouritesArray} = getFavouriteAPIData('null')
+const {jokeInfoArray, favouritesArray} = useFavouriteAPIData('null')
 
 // Receive data from the component, and update the local storage accordingly
 const receiveFavouritesData = (fav: IFavourite, index: number) => {

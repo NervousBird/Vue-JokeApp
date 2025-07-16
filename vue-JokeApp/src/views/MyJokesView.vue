@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import MyJokes from '@/components/MyJokes.vue';
+import { useCreateJoke } from '@/useCreateJoke';
 import type { IJoke } from '@/joke';
 import { computed, onMounted, ref } from 'vue';
 
@@ -7,11 +9,11 @@ const storedJokes = localStorage.getItem('myJokes')
 const categoryString = ref('miscellaneous')
 const categoryFlag = ref<string[]>([])
 const categoryType = ref('twopart')
-const newJoke = ref<IJoke>()
 const setup = ref('')
 const delivery = ref('')
 const joke = ref('')
 let id = myJokesArray.value.length
+const misc = ref()
 
 const loadMyJokesStorage = () => {
     if (storedJokes && storedJokes !== 'undefined') {
@@ -44,68 +46,32 @@ const submitNewJoke = () => {
 }
 
 const createJoke = () => {
-    if (categoryType.value === 'single') {
-        newJoke.value = {
-            error: false,
-            category: categoryString.value,
-            type: categoryType.value,
-            joke: joke.value,
-            flags: {
-                nsfw: categoryFlag.value.includes('nsfw'),
-                religious: categoryFlag.value.includes('religious'),
-                political: categoryFlag.value.includes('political'),
-                racist: categoryFlag.value.includes('racist'),
-                sexist: categoryFlag.value.includes('sexist'),
-                explicit: categoryFlag.value.includes('explicit')
-            },
-            safe: true, // Should check if there's any flags otherwise this can remain true
-            id: id++,
-            lang: 'en',
-        }
-    } else {
-        newJoke.value = {
-            error: false,
-            category: categoryString.value,
-            type: categoryType.value,
-            setup: setup.value,
-            delivery: delivery.value,
-            flags: {
-                nsfw: categoryFlag.value.includes('nsfw'),
-                religious: categoryFlag.value.includes('religious'),
-                political: categoryFlag.value.includes('political'),
-                racist: categoryFlag.value.includes('racist'),
-                sexist: categoryFlag.value.includes('sexist'),
-                explicit: categoryFlag.value.includes('explicit')
-            },
-            safe: true, // Should check if there's any flags otherwise this can remain true
-            id: id++,
-            lang: 'en',
-        }
-    }
+    const newJoke = useCreateJoke(categoryType, categoryString, categoryFlag, setup, delivery, joke, id)
     myJokesArray.value.push(newJoke.value)
     localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+    id++
     setup.value = ''
     delivery.value = ''
     joke.value = ''
 }
 
 const typeTwoParts = computed(() => {
-    if (categoryType.value === 'twopart') {
-        return true
-    } else {
-        return false
-    }
+    return (categoryType.value === 'twopart' ? true : false)
 })
 
 const typeOnePart = computed(() => {
-    if (categoryType.value === 'single') {
-        return true
-    } else {
-        return false
-    }
+    return (categoryType.value === 'single' ? true : false) 
 })
 
-onMounted(loadMyJokesStorage)
+const deleteJoke = (id: number) => {
+    myJokesArray.value.splice(id, 1)
+    localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+}
+
+onMounted(() => {
+    misc.value.checked = true
+    loadMyJokesStorage()
+})
 
 </script>
 
@@ -120,7 +86,7 @@ onMounted(loadMyJokesStorage)
                 <label for="programming">Programming</label>
                 <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
                 <label for="miscellaneous">Miscellaneous</label>
-                <input type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous"
+                <input ref="misc" type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous"
                     v-model="categoryString" />
                 <label for="dark">Dark</label>
                 <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
@@ -133,7 +99,7 @@ onMounted(loadMyJokesStorage)
             </form>
         </div>
         <div class="container-flags">
-            <h3>Select Flags:</h3>
+            <h2>Select Flags:</h2>
             <form>
                 <label for="all">All</label>
                 <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
@@ -152,8 +118,8 @@ onMounted(loadMyJokesStorage)
             </form>
         </div>
         <div class="container-type">
-            <h3>Select Type:</h3>
-            <form>    
+            <h2>Select Type:</h2>
+            <form>
                 <label for="single">One-liner</label>
                 <input type="radio" name="single" id="single" value="single" v-model="categoryType" />
                 <label for="twopart">Two-parter</label>
@@ -173,6 +139,7 @@ onMounted(loadMyJokesStorage)
     <div class="container-button">
         <button @click="submitNewJoke">Add Joke</button>
     </div>
+    <MyJokes :joke-info-array="myJokesArray" @delete-joke="deleteJoke" />
 </template>
 
 <style scoped>

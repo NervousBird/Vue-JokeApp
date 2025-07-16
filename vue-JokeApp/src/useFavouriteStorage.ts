@@ -1,8 +1,8 @@
 import type { IJoke } from '@/joke'
 import { onMounted, ref } from 'vue'
-import { useLocalStorage } from './localStorage'
+import { useLocalStorage } from './useLocalStorage'
 
-export function getFavouriteAPIData(filterString: string) {
+export function useFavouriteAPIData(filterString: string) {
     const {favouritesArray} = useLocalStorage()
     const jokeInfoArray = ref<IJoke[]>([])
 

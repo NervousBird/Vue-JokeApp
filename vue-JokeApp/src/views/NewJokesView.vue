@@ -2,8 +2,8 @@
 import JokeFilters from '@/components/JokeFilters.vue';
 import JokeSaveData from '@/components/JokeSaveData.vue';
 import type { IFavourite } from '@/favourite';
-import { useFetch } from '@/fetch';
-import { useLocalStorage } from '@/localStorage';
+import { useFetch } from '@/useFetch';
+import { useLocalStorage } from '@/useLocalStorage';
 import { ref } from 'vue';
 
 const {favouritesArray} = useLocalStorage()
