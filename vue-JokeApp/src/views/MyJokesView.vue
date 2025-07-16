@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MyJokes from '@/components/MyJokes.vue';
 import type { IJoke } from '@/joke';
 import { computed, onMounted, ref } from 'vue';
 
@@ -173,6 +174,7 @@ onMounted(loadMyJokesStorage)
     <div class="container-button">
         <button @click="submitNewJoke">Add Joke</button>
     </div>
+    <MyJokes :joke-info-array="myJokesArray" />
 </template>
 
 <style scoped>
