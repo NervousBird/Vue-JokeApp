@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MyJokes from '@/components/MyJokes.vue';
+import { useCreateJoke } from '@/useCreateJoke';
 import type { IJoke } from '@/joke';
 import { computed, onMounted, ref } from 'vue';
 
@@ -8,7 +9,6 @@ const storedJokes = localStorage.getItem('myJokes')
 const categoryString = ref('miscellaneous')
 const categoryFlag = ref<string[]>([])
 const categoryType = ref('twopart')
-const newJoke = ref<IJoke>()
 const setup = ref('')
 const delivery = ref('')
 const joke = ref('')
@@ -45,46 +45,10 @@ const submitNewJoke = () => {
 }
 
 const createJoke = () => {
-    if (categoryType.value === 'single') {
-        newJoke.value = {
-            error: false,
-            category: categoryString.value,
-            type: categoryType.value,
-            joke: joke.value,
-            flags: {
-                nsfw: categoryFlag.value.includes('nsfw'),
-                religious: categoryFlag.value.includes('religious'),
-                political: categoryFlag.value.includes('political'),
-                racist: categoryFlag.value.includes('racist'),
-                sexist: categoryFlag.value.includes('sexist'),
-                explicit: categoryFlag.value.includes('explicit')
-            },
-            safe: true, // Should check if there's any flags otherwise this can remain true
-            id: id++,
-            lang: 'en',
-        }
-    } else {
-        newJoke.value = {
-            error: false,
-            category: categoryString.value,
-            type: categoryType.value,
-            setup: setup.value,
-            delivery: delivery.value,
-            flags: {
-                nsfw: categoryFlag.value.includes('nsfw'),
-                religious: categoryFlag.value.includes('religious'),
-                political: categoryFlag.value.includes('political'),
-                racist: categoryFlag.value.includes('racist'),
-                sexist: categoryFlag.value.includes('sexist'),
-                explicit: categoryFlag.value.includes('explicit')
-            },
-            safe: true, // Should check if there's any flags otherwise this can remain true
-            id: id++,
-            lang: 'en',
-        }
-    }
+    const newJoke = useCreateJoke(categoryType, categoryString, categoryFlag, setup, delivery, joke, id)
     myJokesArray.value.push(newJoke.value)
     localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+    id++
     setup.value = ''
     delivery.value = ''
     joke.value = ''
@@ -105,6 +69,11 @@ const typeOnePart = computed(() => {
         return false
     }
 })
+
+const deleteJoke = (id: number) => {
+    myJokesArray.value.splice(id, 1)
+    localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+}
 
 onMounted(loadMyJokesStorage)
 
@@ -174,7 +143,7 @@ onMounted(loadMyJokesStorage)
     <div class="container-button">
         <button @click="submitNewJoke">Add Joke</button>
     </div>
-    <MyJokes :joke-info-array="myJokesArray" />
+    <MyJokes :joke-info-array="myJokesArray" @delete-joke="deleteJoke" />
 </template>
 
 <style scoped>

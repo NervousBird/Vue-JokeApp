@@ -6,6 +6,13 @@ const props = defineProps<{
     jokeInfoArray: IJoke[]
 }>()
 
+const deleteJoke = (id: number) => {
+    emit('deleteJoke', id)
+}
+
+const emit = defineEmits<{
+    (event: 'deleteJoke', index: number): void
+}>()
 
 </script>
 
@@ -34,6 +41,7 @@ const props = defineProps<{
                         <h3>{{ data.joke }}</h3>
                         <p>{{ data.category }}</p>
                         <p>{{ data.id }}</p>
+                        <div class="delete-button" @click="deleteJoke(data.id)"><i class="bi bi-x-square-fill"></i></div>
                         <!-- <JokeSaveData :joke-data="data" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" /> -->
                     </li>
                 </ul>
@@ -43,6 +51,19 @@ const props = defineProps<{
 </template>
 
 <style scoped >
+.delete-button {
+    font-size: 1.5rem;
+    color: var(--favourite);
+    transition: color,scale 0.2s ease-in-out;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+    scale: 1.1;
+    color: var(--judgement);
+    transition: color,scale 0.2s ease-in-out;
+}
+
 .container {
     margin-top: 5rem;
     width: 80vw;
