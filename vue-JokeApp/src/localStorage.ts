@@ -1,7 +1,6 @@
 import { ref, watchEffect } from "vue"
 import type { IFavourite } from "./favourite"
 
-
 export const useLocalStorage = () => {
     const favouritesArray = ref<IFavourite[]>([])
     const storedFavourites = localStorage.getItem('favourites')
