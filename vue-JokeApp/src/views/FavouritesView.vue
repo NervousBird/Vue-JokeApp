@@ -50,7 +50,6 @@ ul {
     padding-inline-start: 0px;
 }
 
-.container-title,
 .container-sorting {
     justify-content: center;
     text-align: center;

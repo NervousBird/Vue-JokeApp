@@ -86,10 +86,6 @@ button:hover {
     transition: background-color 0.2s ease-in-out;
 }
 
-.container-title {
-    text-align: center;
-}
-
 .container-joke {
     text-align: center;
     padding: 10px;

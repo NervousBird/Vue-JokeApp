@@ -74,11 +74,6 @@
   color: var(--subtext);
 }
 
-.container-title {
-    justify-content: center;
-    text-align: center;
-}
-
 .container {
   display: grid;
   grid-template-columns: 1fr .5fr;

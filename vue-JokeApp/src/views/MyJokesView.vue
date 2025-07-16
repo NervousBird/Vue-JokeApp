@@ -191,7 +191,6 @@ onMounted(loadMyJokesStorage)
     box-shadow: 0px 4px 4px 2px var(--subtext);
 }
 
-.container-title,
 .container-button {
     justify-content: center;
     text-align: center;
