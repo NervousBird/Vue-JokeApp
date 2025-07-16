@@ -17,18 +17,6 @@ export const useLocalStorage = () => {
         }
     }
 
-    const receiveFavouritesData = (fav: IFavourite, index: number) => {
-        // If it already exists in favouritesArray, update values
-        if(index >= 0) {
-            favouritesArray.value[index] = {id: fav.id, rating: fav.rating, favourite: fav.favourite}
-        } 
-        // Otherwise add to the Array and save
-        else if(fav.favourite === true || fav.rating > 0) {
-            favouritesArray.value.push({id: fav.id, rating: fav.rating, favourite: fav.favourite})
-        }
-        localStorage.setItem('favourites', JSON.stringify(favouritesArray.value))
-    }
-
     watchEffect(() => {
         loadFavouriteStorage()
     })
