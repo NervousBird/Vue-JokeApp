@@ -89,6 +89,8 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  padding: 10px;
+  gap: 40px;
 }
 
 p {
@@ -101,6 +103,7 @@ p {
   justify-content: center;
   align-items: center;
   padding-top: 30px;
+  gap: 60px;
 }
 
 .fade-move,
