@@ -52,6 +52,7 @@ const emit = defineEmits<{
 
 <style scoped >
 .delete-button {
+    background-color: transparent;
     font-size: 1.5rem;
     color: var(--favourite);
     transition: color,scale 0.2s ease-in-out;
@@ -62,6 +63,10 @@ const emit = defineEmits<{
     scale: 1.1;
     color: var(--judgement);
     transition: color,scale 0.2s ease-in-out;
+}
+
+.bi {
+    background-color: transparent;
 }
 
 .container {

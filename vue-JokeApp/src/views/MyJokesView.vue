@@ -13,6 +13,7 @@ const setup = ref('')
 const delivery = ref('')
 const joke = ref('')
 let id = myJokesArray.value.length
+const misc = ref()
 
 const loadMyJokesStorage = () => {
     if (storedJokes && storedJokes !== 'undefined') {
@@ -55,19 +56,11 @@ const createJoke = () => {
 }
 
 const typeTwoParts = computed(() => {
-    if (categoryType.value === 'twopart') {
-        return true
-    } else {
-        return false
-    }
+    return (categoryType.value === 'twopart' ? true : false)
 })
 
 const typeOnePart = computed(() => {
-    if (categoryType.value === 'single') {
-        return true
-    } else {
-        return false
-    }
+    return (categoryType.value === 'single' ? true : false) 
 })
 
 const deleteJoke = (id: number) => {
@@ -75,7 +68,10 @@ const deleteJoke = (id: number) => {
     localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
 }
 
-onMounted(loadMyJokesStorage)
+onMounted(() => {
+    misc.value.checked = true
+    loadMyJokesStorage()
+})
 
 </script>
 
@@ -90,7 +86,7 @@ onMounted(loadMyJokesStorage)
                 <label for="programming">Programming</label>
                 <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
                 <label for="miscellaneous">Miscellaneous</label>
-                <input type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous"
+                <input ref="misc" type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous"
                     v-model="categoryString" />
                 <label for="dark">Dark</label>
                 <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
@@ -103,7 +99,7 @@ onMounted(loadMyJokesStorage)
             </form>
         </div>
         <div class="container-flags">
-            <h3>Select Flags:</h3>
+            <h2>Select Flags:</h2>
             <form>
                 <label for="all">All</label>
                 <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
@@ -122,8 +118,8 @@ onMounted(loadMyJokesStorage)
             </form>
         </div>
         <div class="container-type">
-            <h3>Select Type:</h3>
-            <form>    
+            <h2>Select Type:</h2>
+            <form>
                 <label for="single">One-liner</label>
                 <input type="radio" name="single" id="single" value="single" v-model="categoryType" />
                 <label for="twopart">Two-parter</label>
