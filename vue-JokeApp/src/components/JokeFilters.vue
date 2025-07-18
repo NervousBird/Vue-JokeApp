@@ -116,8 +116,9 @@ onMounted(() => {
         <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
       </form>
     </div>
-    <form @change="emit('updateFilters', filterString)">
-          <p>Select Language:</p>
+    <div class="container-language">
+      <h2>Select Language:</h2>
+      <form @change="emit('updateFilters', filterString)">
           <select v-model="categoryLanguage">
               <option>en</option>
               <option>cs</option>
@@ -127,6 +128,8 @@ onMounted(() => {
               <option>pt</option>
           </select>
       </form>
+    </div>
+    
     <div class="container-type">
       <h2>Select Type:</h2>
       <form @change="emit('updateFilters', filterString)">
@@ -161,12 +164,13 @@ onMounted(() => {
   padding-right: 15px;
   padding-bottom: 30px;
   border: 2px solid var(--subtext);
-  border-radius: 5px;
+  border-radius: 10px;
   max-width: 75vw;
   box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 70%);
 }
 
 .container-categories,
+.container-language,
 .container-flags,
 .container-type {
   display: block;
@@ -195,6 +199,30 @@ input {
   box-sizing: content-box;
 }
 
+select {
+  min-width: 50px;
+  min-height: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
 
+select::picker-icon {
+  color: var(--subtext);
+}
+
+select:open::picker {
+  rotate: 180deg;
+}
+
+option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+
+  border: 2px solid #ddd;
+  background: #eee;
+  padding: 10px;
+  transition: 0.4s;
+}
 
 </style>

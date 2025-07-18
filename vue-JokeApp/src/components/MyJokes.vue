@@ -22,7 +22,7 @@ const emit = defineEmits<{
             <h2>My Saved Jokes</h2>
             <h3>Keep all your jokes organised!</h3>
         </div>
-        <div class="container-sorting">
+        <!-- <div class="container-sorting">
             <h2>Sort</h2>
             <div class="container-sort-buttons">
                 <button>Rank</button>
@@ -31,7 +31,7 @@ const emit = defineEmits<{
                 <button>Category</button>
                 <button>Unsorted</button>
             </div>
-        </div>
+        </div> -->
         <div class="container-favourites">
             <TransitionGroup name="bounce">
                 <ul class="container-favourites-cards" v-for="data in props.jokeInfoArray" :key="data.id">

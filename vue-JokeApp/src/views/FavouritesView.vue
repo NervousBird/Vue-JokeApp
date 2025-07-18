@@ -18,7 +18,7 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
         <h1>Favourites</h1>
         <h3>The place for all the BEST jokes.</h3>
     </div>
-    <div class="container-sorting">
+    <!-- <div class="container-sorting">
         <h2>Sort</h2>
         <div class="container-sort-buttons">
             <button>Rank</button>
@@ -27,7 +27,7 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
             <button>Category</button>
             <button>Unsorted</button>
         </div>
-    </div>
+    </div> -->
     <div class="container-favourites">
         <TransitionGroup name="bounce">
             <ul class="container-favourites-cards" v-for="data in jokeInfoArray" key="test">
