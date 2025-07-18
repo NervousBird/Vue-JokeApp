@@ -161,7 +161,7 @@ onMounted(() => {
   border: 2px solid var(--subtext);
   border-radius: 5px;
   max-width: 75vw;
-  box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 50%);
+  box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 70%);
 }
 
 .container-categories,

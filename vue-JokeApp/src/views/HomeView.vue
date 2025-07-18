@@ -6,52 +6,62 @@
   <main>
     <div class="container-title">
       <h1>Jokes For You</h1>
+      <h3>The Greatest* Joke Company Around</h3>
     </div>
     <div class="container">
-        <div class="container-overview">
-          <div clas="container-summary">
-            <h2>What we do:</h2>
-            <p>Jokes For You is a technology company that provides jokeservices. It offers Shitty Jokes On Demand (SJOC), andhonestly, not much else. For more information, go away.</p>
+        <Transition name="fade" :duration="400" appear>
+          <div class="container-overview">
+            <div clas="container-summary">
+              <h2>What we do:</h2>
+              <p>Jokes For You is a technology company that provides jokeservices. It offers Shitty Jokes On Demand (SJOD), andhonestly, not much else. For more information, go away.</p>
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem odio perspiciatis nisi amet voluptatem labore corporis eum veritatis eius, accusamus consequuntur possimus expedita aperiam impedit blanditiis fuga voluptatibus temporibus rem.</p>
+            </div>
+            <div>
+              <h2>More Nonsense:</h2>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero maxime a voluptates possimus rem soluta, inventore, consequatur enim eius, ducimus odit quas. Accusantium, atque cupiditate molestiae sequi ab facere excepturi?</p>
+            </div>
           </div>
-          <div>
-            <h2>More Nonsense:</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero maxime a voluptates possimus rem soluta, inventore, consequatur enim eius, ducimus odit quas. Accusantium, atque cupiditate molestiae sequi ab facere excepturi?</p>
-          </div>
-        </div>
+        </Transition>
           <div class="container-reviews">
-            <div class="container-review">
-              <div class="container-rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+            <Transition name="fade" :duration="100" appear>
+              <div class="container-review">
+                <div class="container-rating">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review">Soooo funny, I almost died.</p>
+                <p class="company">- FunnyCompany.com</p>
               </div>
-              <p class="review">Soooo funny, I almost died.</p>
-              <p class="company">- FunnyCompany.com</p>
-            </div>
-            <div class="container-review">
-              <div class="container-rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+            </Transition>
+            <Transition name="fade" :duration="500" appear>
+              <div class="container-review">
+                <div class="container-rating">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review">Had the best laugh ever.</p>
+                <p class="company">- WeHateComedy.org</p>
               </div>
-              <p class="review">Had the best laugh ever.</p>
-              <p class="company">- WeHateComedy.org</p>
-            </div>
-            <div class="container-review">
-              <div class="container-rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+            </Transition>
+            <Transition name="fade" :duration="2200" appear>
+              <div class="container-review">
+                <div class="container-rating">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review">I got paid to give it 5 stars</p>
+                <p class="company">- PayUsForReviews.com</p>
               </div>
-              <p class="review">I got paid to give it 5 stars</p>
-              <p class="company">- PayUsForReviews.com</p>
-            </div>
+            </Transition>
           </div>
     </div>
   </main>
@@ -59,6 +69,9 @@
 </template>
 
 <style scoped>
+main {
+  align-content: center;
+}
 
 .container-review {
   display: block;
@@ -77,10 +90,10 @@
 .container {
   display: grid;
   grid-template-columns: 1fr .5fr;
-  padding: 20px;
+  justify-self: center;
+  padding: 10px;
   margin: 10px;
-  margin-left: 3vw;
-  margin-right: 3vw;
+  max-width: 1280px;
   gap: 30px;
 }
 
@@ -106,14 +119,11 @@ p {
   gap: 60px;
 }
 
-.fade-move,
-.fade-enter-active,
-.fade-leave-active {
-    transition: all 1s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
+@media screen and (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 
 </style>

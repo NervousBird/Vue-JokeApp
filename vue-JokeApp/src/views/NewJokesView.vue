@@ -38,8 +38,11 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
 <template>
     <div class="container-title">
         <h1>New Jokes!</h1>
+        <h3>Get Jokes from our lovely API</h3>
     </div>
-    <JokeFilters @update-filters="updateFilter" />
+    <Transition name="fade" appear>
+        <JokeFilters @update-filters="updateFilter" />
+    </Transition>
     <div v-if="error">Opps! Error encountered: {{ error.message }}</div>
     <TransitionGroup name="bounce">
         <div v-if="data" class="container-joke">
@@ -96,24 +99,6 @@ button:hover {
     margin: 10px;
     gap: 20px;
     width: 200px;
-}
-
-.bounce-enter-active {
-    animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-    animation: bounce-in 0.5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.25);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 </style>

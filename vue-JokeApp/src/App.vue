@@ -25,43 +25,28 @@ import Footer from '@/components/Footer.vue'
 
 <style scoped>
 .router-view {
-  min-height: 70vh;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: baseline;
-  gap: 60px;
-  background-color: color-mix(in srgb, var(--primary), var(--background)50%);
-  box-shadow: -1px -1px 8px 1px color-mix(in srgb, var(--text), var(--background)70%);
-  padding: 20px;
-  margin-bottom: 30px;
-  
+  min-height: 75vh;
 }
 
 .routerLink {
   color: var(--text);
   background-color: transparent;
   text-decoration: none;
-  transition: scale 0.1s ease-in-out;
+  transition: color 0.2s ease-in-out;
 }
 
 .routerLink:hover {
-  scale: 1.05;
-  color: var(--secondary);
-  transition: scale 0.1s ease-in-out;
+  color: var(--judgement);
+  transition: color 0.2s ease-in-out;
 }
 
-.fade-move,
-.fade-enter-active,
-.fade-leave-active {
-    transition: all 1s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
+@media screen and (max-width: 1000px) {
+  nav {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    gap: 2vw;
+  }
 }
 
 </style>

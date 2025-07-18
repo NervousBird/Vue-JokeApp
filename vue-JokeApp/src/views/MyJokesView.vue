@@ -41,6 +41,7 @@ const typeOnePart = computed(() => {
 
 const deleteJoke = (id: number) => {
     favouritesArray.value.splice(id, 1)
+    // RUN an update to fix all the id's to the new index
     localStorage.setItem('myJokes', JSON.stringify(favouritesArray.value))
 }
 
@@ -53,68 +54,77 @@ onMounted(() => {
 <template>
     <div class="container-title">
         <h1>My Jokes!</h1>
+        <h3>Make your own jokes!</h3>
     </div>
-    <div class="container">
-        <div class="container-categories">
-            <h2>Select Categories:</h2>
-            <form>
-                <label for="programming">Programming</label>
-                <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
-                <label for="miscellaneous">Miscellaneous</label>
-                <input ref="misc" type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous"
-                    v-model="categoryString" />
-                <label for="dark">Dark</label>
-                <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
-                <label for="pun">Pun</label>
-                <input type="radio" name="pun" id="pun" value="Pun" v-model="categoryString" />
-                <label for="spooky">Spooky</label>
-                <input type="radio" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
-                <label for="christmas">Christmas</label>
-                <input type="radio" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
-            </form>
+    <Transition name="fade" appear>
+        <div class="container">
+            <div class="container-categories">
+                <h2>Select Categories:</h2>
+                <form>
+                    <label for="programming">Programming</label>
+                    <input type="radio" name="programming" id="programming" value="Programming" v-model="categoryString" />
+                    <label for="miscellaneous">Miscellaneous</label>
+                    <input ref="misc" type="radio" name="miscellaneous" id="miscellaneous" value="Miscellaneous"
+                        v-model="categoryString" />
+                    <label for="dark">Dark</label>
+                    <input type="radio" name="dark" id="dark" value="Dark" v-model="categoryString" />
+                    <label for="pun">Pun</label>
+                    <input type="radio" name="pun" id="pun" value="Pun" v-model="categoryString" />
+                    <label for="spooky">Spooky</label>
+                    <input type="radio" name="spooky" id="spooky" value="Spooky" v-model="categoryString" />
+                    <label for="christmas">Christmas</label>
+                    <input type="radio" name="christmas" id="christmas" value="Christmas" v-model="categoryString" />
+                </form>
+            </div>
+            <div class="container-flags">
+                <h2>Select Flags:</h2>
+                <form>
+                    <label for="all">All</label>
+                    <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
+                    <label for="nsfw">NSFW</label>
+                    <input type="checkbox" name="nsfw" id="nsfw" value="nsfw" v-model="categoryFlag" />
+                    <label for="religious">Religious</label>
+                    <input type="checkbox" name="religious" id="religious" value="religious" v-model="categoryFlag" />
+                    <label for="political">Political</label>
+                    <input type="checkbox" name="political" id="political" value="political" v-model="categoryFlag" />
+                    <label for="racist">Racist</label>
+                    <input type="checkbox" name="racist" id="racist" value="racist" v-model="categoryFlag" />
+                    <label for="sexist">Sexist</label>
+                    <input type="checkbox" name="sexist" id="sexist" value="sexist" v-model="categoryFlag" />
+                    <label for="explicit">Explicit</label>
+                    <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
+                </form>
+            </div>
+            <div class="container-type">
+                <h2>Select Type:</h2>
+                <form>
+                    <label for="single">One-liner</label>
+                    <input type="radio" name="single" id="single" value="single" v-model="categoryType" />
+                    <label for="twopart">Two-parter</label>
+                    <input type="radio" name="twopart" id="twopart" value="twopart" v-model="categoryType" />
+                </form>
+            </div>
         </div>
-        <div class="container-flags">
-            <h2>Select Flags:</h2>
-            <form>
-                <label for="all">All</label>
-                <input ref="allFlags" type="checkbox" name="all" id="all" value="all" v-model="categoryFlag" />
-                <label for="nsfw">NSFW</label>
-                <input type="checkbox" name="nsfw" id="nsfw" value="nsfw" v-model="categoryFlag" />
-                <label for="religious">Religious</label>
-                <input type="checkbox" name="religious" id="religious" value="religious" v-model="categoryFlag" />
-                <label for="political">Political</label>
-                <input type="checkbox" name="political" id="political" value="political" v-model="categoryFlag" />
-                <label for="racist">Racist</label>
-                <input type="checkbox" name="racist" id="racist" value="racist" v-model="categoryFlag" />
-                <label for="sexist">Sexist</label>
-                <input type="checkbox" name="sexist" id="sexist" value="sexist" v-model="categoryFlag" />
-                <label for="explicit">Explicit</label>
-                <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
-            </form>
-        </div>
-        <div class="container-type">
-            <h2>Select Type:</h2>
-            <form>
-                <label for="single">One-liner</label>
-                <input type="radio" name="single" id="single" value="single" v-model="categoryType" />
-                <label for="twopart">Two-parter</label>
-                <input type="radio" name="twopart" id="twopart" value="twopart" v-model="categoryType" />
-            </form>
-        </div>
-    </div>
+    </Transition>
     <!-- <JokeFilters @update-filters="updateFilter" /> -->
-    <div class="container-input">
-        <label v-if="typeTwoParts" for="setup">Setup</label>
-        <input v-if="typeTwoParts" type="text" name="setup" id="setup" v-model="setup">
-        <label v-if="typeTwoParts" for="delivery">Delivery</label>
-        <input v-if="typeTwoParts" type="text" name="delivery" id="delivery" v-model="delivery">
-        <label v-if="typeOnePart" for="joke">Joke</label>
-        <input v-if="typeOnePart" type="text" name="joke" id="joke" v-model="joke">
-    </div>
-    <div class="container-button">
-        <button @click="submitNewJoke">Add Joke</button>
-    </div>
-    <MyJokes :joke-info-array="favouritesArray" @delete-joke="deleteJoke" />
+    <Transition name="fade" appear>
+       <div class="container-input">
+            <label v-if="typeTwoParts" for="setup">Setup</label>
+            <input v-if="typeTwoParts" type="text" name="setup" id="setup" v-model="setup">
+            <label v-if="typeTwoParts" for="delivery">Delivery</label>
+            <input v-if="typeTwoParts" type="text" name="delivery" id="delivery" v-model="delivery">
+            <label v-if="typeOnePart" for="joke">Joke</label>
+            <input v-if="typeOnePart" type="text" name="joke" id="joke" v-model="joke">
+        </div>
+    </Transition>
+    <Transition name="fade" appear>
+        <div class="container-button">
+            <button @click="submitNewJoke">Add Joke</button>
+        </div>
+    </Transition>
+    <Transition name="fade" appear>
+        <MyJokes :joke-info-array="favouritesArray" @delete-joke="deleteJoke" />
+    </Transition>
 </template>
 
 <style scoped>
@@ -130,7 +140,7 @@ onMounted(() => {
     border: 2px solid var(--subtext);
     border-radius: 10px;
     max-width: 75vw;
-    box-shadow: 0px 4px 4px 2px var(--subtext);
+    box-shadow: 0px 4px 4px 2px color-mix(in srgb, var(--subtext), transparent 70%);
 }
 
 .container-button {

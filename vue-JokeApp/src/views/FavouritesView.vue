@@ -16,6 +16,7 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
 <template>
     <div class="container-title">
         <h1>Favourites</h1>
+        <h3>The place for all the BEST jokes.</h3>
     </div>
     <div class="container-sorting">
         <h2>Sort</h2>
@@ -95,7 +96,7 @@ ul {
     background-color: var(--background);
     border: 2px solid var(--subtext);
     border-radius: 5%;
-    box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 50%);
+    box-shadow: 0px 2px 8px 2px color-mix(in srgb, var(--subtext), transparent 70%);
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
