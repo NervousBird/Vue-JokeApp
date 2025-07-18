@@ -6,13 +6,13 @@ import { useFetch } from '@/useFetch';
 import { useLocalStorage } from '@/useLocalStorage';
 import { ref } from 'vue';
 
-const {favouritesArray} = useLocalStorage()
+const { favouritesArray } = useLocalStorage('favourites')
 const filterString = ref('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
 const filterInfo = ref('')
 const {data, error} = useFetch(filterString)
 
 const updateFilter = (info: string) => {
-    filterString.value = 'https://v2.jokeapi.dev/joke/' + info
+    filterString.value = ('https://v2.jokeapi.dev/joke/' + info)
     filterInfo.value = filterString.value
 }
 

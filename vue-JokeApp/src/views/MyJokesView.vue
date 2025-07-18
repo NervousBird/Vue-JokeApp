@@ -1,54 +1,30 @@
 <script setup lang="ts">
 import MyJokes from '@/components/MyJokes.vue';
 import { useCreateJoke } from '@/useCreateJoke';
-import type { IJoke } from '@/joke';
 import { computed, onMounted, ref } from 'vue';
+import { useLocalStorage } from '@/useLocalStorage';
 
-const myJokesArray = ref<IJoke[]>([])
-const storedJokes = localStorage.getItem('myJokes')
+const { favouritesArray } = useLocalStorage('myJokes')
 const categoryString = ref('miscellaneous')
 const categoryFlag = ref<string[]>([])
 const categoryType = ref('twopart')
 const setup = ref('')
 const delivery = ref('')
 const joke = ref('')
-let id = myJokesArray.value.length
+let id = favouritesArray.value.length
 const misc = ref()
 
-const loadMyJokesStorage = () => {
-    if (storedJokes && storedJokes !== 'undefined') {
-        try {
-            myJokesArray.value = JSON.parse(storedJokes)
-        } catch (error) {
-            console.log('Error parsing localStorage "myJokesArray:"', error)
-            localStorage.removeItem('myJokes')
-        }
-    }
-    id = myJokesArray.value.length
-}
-
 const submitNewJoke = () => {
-    if (categoryString.value === '') {
-        return alert('Please fill in the fields.')
-    }
     if (categoryType.value === 'twopart') {
-        if (setup.value === '') {
-            return alert('Please fill in the fields.')
-        } else if (delivery.value === '') {
-            return alert('Please fill in the fields.')
-        }
-        return createJoke()
+        return (categoryString.value === '' || setup.value === '' || delivery.value === '' ? alert('Please fill in the fields.') : createJoke()) 
     }
-    if (joke.value === '') {
-        return alert('Please fill in the fields.')
-    }
-    return createJoke()
+    return (joke.value === '' ? alert('Please fill in the fields.') : createJoke())
 }
 
 const createJoke = () => {
     const newJoke = useCreateJoke(categoryType, categoryString, categoryFlag, setup, delivery, joke, id)
-    myJokesArray.value.push(newJoke.value)
-    localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+    favouritesArray.value.push(newJoke.value)
+    localStorage.setItem('myJokes', JSON.stringify(favouritesArray.value))
     id++
     setup.value = ''
     delivery.value = ''
@@ -64,13 +40,12 @@ const typeOnePart = computed(() => {
 })
 
 const deleteJoke = (id: number) => {
-    myJokesArray.value.splice(id, 1)
-    localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
+    favouritesArray.value.splice(id, 1)
+    localStorage.setItem('myJokes', JSON.stringify(favouritesArray.value))
 }
 
 onMounted(() => {
     misc.value.checked = true
-    loadMyJokesStorage()
 })
 
 </script>
@@ -139,7 +114,7 @@ onMounted(() => {
     <div class="container-button">
         <button @click="submitNewJoke">Add Joke</button>
     </div>
-    <MyJokes :joke-info-array="myJokesArray" @delete-joke="deleteJoke" />
+    <MyJokes :joke-info-array="favouritesArray" @delete-joke="deleteJoke" />
 </template>
 
 <style scoped>

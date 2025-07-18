@@ -42,11 +42,5 @@ export const useCreateJoke = (categoryType, categoryString, categoryFlag, setup,
             lang: 'en',
         }
     }
-    console.log(newJoke)
     return newJoke
-    // myJokesArray.value.push(newJoke.value)
-    // localStorage.setItem('myJokes', JSON.stringify(myJokesArray.value))
-    // setup.value = ''
-    // delivery.value = ''
-    // joke.value = ''
 }

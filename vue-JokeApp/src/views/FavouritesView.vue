@@ -3,7 +3,7 @@ import type { IFavourite } from '@/favourite'
 import JokeSaveData from '@/components/JokeSaveData.vue'
 import { useFavouriteAPIData } from '@/useFavouriteStorage'
 
-const {jokeInfoArray, favouritesArray} = useFavouriteAPIData('null')
+const {jokeInfoArray, favouritesArray} = useFavouriteAPIData('favourites')
 
 // Receive data from the component, and update the local storage accordingly
 const receiveFavouritesData = (fav: IFavourite, index: number) => {
