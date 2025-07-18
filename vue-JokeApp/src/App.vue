@@ -40,13 +40,4 @@ import Footer from '@/components/Footer.vue'
   transition: color 0.2s ease-in-out;
 }
 
-@media screen and (max-width: 1000px) {
-  nav {
-    display: flex;
-    flex-direction: row;
-    background-color: transparent;
-    gap: 2vw;
-  }
-}
-
 </style>

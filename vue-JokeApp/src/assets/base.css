@@ -56,6 +56,15 @@ nav {
   gap: 3rem;
 }
 
+@media screen and (max-width: 1000px) {
+  nav {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    gap: 2vw;
+  }
+}
+
 .wrapper {
   display: flex;
   flex-direction: row;
