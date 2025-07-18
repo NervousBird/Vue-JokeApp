@@ -4,13 +4,11 @@ import { onMounted, ref, watch } from 'vue'
 const categoryString = ref(['Any'])
 const categoryFlag = ref(['nsfw', 'religious', 'political', 'racist', 'sexist', 'explicit'])
 const categoryType = ref('both')
+const categoryLanguage = ref('en')
 // These are potential bonus filters, don't know if I even wanna use them
-// const categoryLanguage = ref('en')
 // const searchInput = ref('')
 // const jokeNumber = ref()
-// .../joke/({category}?) ({blacklistFlags={flags}}&) type={type}
 let filterString = ''
-// This is just to set the category to 'Any' imnmediately
 const anyCategory = ref()
 const jokeType = ref()
 
@@ -18,10 +16,15 @@ const emit = defineEmits<{
   (event: 'updateFilters', info: string): void
 }>()
 
-// .../joke/({category}?) ({blacklistFlags={flags}}&) type={type}
+// .../joke/({category}?) (lang={language}) ({blacklistFlags={flags}}&) type={type}
 const createFilterString = () => {
   filterString = categoryString.value.toString()
-  if (categoryFlag.value.length !== 0) {
+  if(categoryLanguage.value !== 'en') {
+    filterString += '?' + 'lang=' + categoryLanguage.value
+  }
+  if (categoryFlag.value.length !== 0 && filterString.includes('?')) {
+    filterString += '&' + 'blacklistFlags=' + categoryFlag.value.toString()
+  } else if (categoryFlag.value.length !== 0) {
     filterString += '?' + 'blacklistFlags=' + categoryFlag.value.toString()
   }
   if (categoryType.value !== 'both' && filterString.includes('?')) {
@@ -48,20 +51,19 @@ watch(categoryString, (newInput, oldInput) => {
   createFilterString()
 })
 
-// Don't like duplicating this, but it works for now
+// Flag inputs, automatically select all inputs (apart from all) when you select 'all'
 watch(categoryFlag, (newInput, oldInput) => {
   if (newInput.includes('all') && !oldInput.includes('all')) {
     categoryFlag.value = []
     return categoryFlag.value.push('nsfw', 'religious', 'political', 'racist', 'sexist', 'explicit')
   }
-  // Untick all other categories when clicking 'Any' as they're not needed
   if (oldInput.includes('all') && newInput.includes('all')) {
     return (categoryFlag.value = categoryFlag.value.filter((i: string) => i !== 'all'))
   }
   createFilterString()
 })
 
-watch(categoryType, () => {
+watch([categoryType, categoryLanguage], () => {
   createFilterString()
 })
 
@@ -114,7 +116,7 @@ onMounted(() => {
         <input type="checkbox" name="explicit" id="explicit" value="explicit" v-model="categoryFlag" />
       </form>
     </div>
-    <!-- <form @change="emit('updateFilters', filterString)">
+    <form @change="emit('updateFilters', filterString)">
           <p>Select Language:</p>
           <select v-model="categoryLanguage">
               <option>en</option>
@@ -124,7 +126,7 @@ onMounted(() => {
               <option>fr</option>
               <option>pt</option>
           </select>
-      </form> -->
+      </form>
     <div class="container-type">
       <h2>Select Type:</h2>
       <form @change="emit('updateFilters', filterString)">
