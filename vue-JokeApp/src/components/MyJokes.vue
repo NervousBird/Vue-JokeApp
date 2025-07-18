@@ -18,8 +18,9 @@ const emit = defineEmits<{
 
 <template>
     <div class="container">
-        <div class="container-title">
-            <h1>My Saved Jokes</h1>
+        <div class="title">
+            <h2>My Saved Jokes</h2>
+            <h3>Keep all your jokes organised!</h3>
         </div>
         <div class="container-sorting">
             <h2>Sort</h2>
@@ -51,6 +52,10 @@ const emit = defineEmits<{
 </template>
 
 <style scoped >
+.title {
+    justify-items: center;
+}
+
 .delete-button {
     background-color: transparent;
     font-size: 1.5rem;
@@ -72,7 +77,7 @@ const emit = defineEmits<{
 .container {
     margin-top: 5rem;
     width: 80vw;
-    box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 60%);
+    box-shadow: 0px 2px 8px 2px color-mix(in srgb, var(--subtext), transparent 70%);
 }
 
 ul {
@@ -125,7 +130,7 @@ ul {
     background-color: var(--background);
     border: 2px solid var(--subtext);
     border-radius: 5%;
-    box-shadow: 0px 4px 8px 2px color-mix(in srgb, var(--subtext), transparent 50%);
+    box-shadow: 0px 2px 6px 2px color-mix(in srgb, var(--subtext), transparent 70%);
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -161,21 +166,4 @@ button:hover {
     transition: background-color 0.2s ease-in-out;
 }
 
-.bounce-enter-active {
-    animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-    animation: bounce-in 0.5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0.5);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 </style>

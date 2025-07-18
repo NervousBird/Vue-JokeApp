@@ -1,9 +1,8 @@
 import { ref, watchEffect } from "vue"
-import type { IFavourite } from "./favourite"
 
-export const useLocalStorage = () => {
-    const favouritesArray = ref<IFavourite[]>([])
-    const storedFavourites = localStorage.getItem('favourites')
+export const useLocalStorage = (storage: string) => {
+    const favouritesArray = ref()
+    const storedFavourites = localStorage.getItem(storage)
 
     const loadFavouriteStorage = () => {
         if(storedFavourites && storedFavourites !== 'undefined') {
@@ -11,7 +10,7 @@ export const useLocalStorage = () => {
                 favouritesArray.value = JSON.parse(storedFavourites)
             } catch(error) {
                 console.log('Error parsing localStorage "favouritesArray:"', error)
-                localStorage.removeItem('favourites')
+                localStorage.removeItem(storage)
             }
         }
     }

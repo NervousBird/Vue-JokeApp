@@ -5,8 +5,10 @@
 <template>
     <div class="container-title">
         <h1>About</h1>
+        <h3>Nosey, aren't ya?</h3>
     </div>
     <div class="container">
+        <Transition name="fade" appear>      
         <div class="container-blurb">
             <div class="container-info">
                 <div class="container-text">
@@ -28,18 +30,19 @@
                 </div>
             </div>    
         </div>
+        </Transition>  
     </div>
 </template>
 
 <style scoped>
 
 .container {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  margin: 10px;
-  margin-left: 5vw;
-  margin-right: 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    padding: 20px;
+    margin: 10px;
+    max-width: 1280px;
 }
 
 .container-blurb {
@@ -78,6 +81,13 @@ img {
 
 p {
   text-align: left;
+}
+
+@media screen and (max-width: 1024px) {
+  .container-info {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 </style>
