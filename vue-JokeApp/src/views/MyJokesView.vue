@@ -3,6 +3,8 @@ import MyJokes from '@/components/MyJokes.vue';
 import { useCreateJoke } from '@/useCreateJoke';
 import { computed, onMounted, ref } from 'vue';
 import { useLocalStorage } from '@/useLocalStorage';
+import type { IFavourite } from '@/favourite';
+import { useRandomInt } from '@/useRandomInt';
 
 const { favouritesArray } = useLocalStorage('myJokes')
 const categoryString = ref('miscellaneous')
@@ -11,7 +13,7 @@ const categoryType = ref('twopart')
 const setup = ref('')
 const delivery = ref('')
 const joke = ref('')
-let id = favouritesArray.value.length
+let id = useRandomInt()
 const misc = ref()
 
 const submitNewJoke = () => {
@@ -25,7 +27,7 @@ const createJoke = () => {
     const newJoke = useCreateJoke(categoryType, categoryString, categoryFlag, setup, delivery, joke, id)
     favouritesArray.value.push(newJoke.value)
     localStorage.setItem('myJokes', JSON.stringify(favouritesArray.value))
-    id++
+    id = useRandomInt()
     setup.value = ''
     delivery.value = ''
     joke.value = ''
@@ -39,9 +41,11 @@ const typeOnePart = computed(() => {
     return (categoryType.value === 'single' ? true : false) 
 })
 
+// To Do: FIX THIS
 const deleteJoke = (id: number) => {
-    favouritesArray.value.splice(id, 1)
-    // RUN an update to fix all the id's to the new index
+    console.log('delete', id)
+    favouritesArray.value = favouritesArray.value.filter((item: IFavourite) => item.id !== id)
+    // To Do: RUN an update to fix all the id's to the new index
     localStorage.setItem('myJokes', JSON.stringify(favouritesArray.value))
 }
 

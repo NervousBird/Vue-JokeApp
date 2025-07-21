@@ -9,10 +9,10 @@ import { ref } from 'vue';
 const { favouritesArray } = useLocalStorage('favourites')
 const filterString = ref('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
 const filterInfo = ref('')
-const {data, error} = useFetch(filterString)
+const { data, error, loading } = useFetch(filterString)
 
 const updateFilter = (info: string) => {
-    filterString.value = ('https://v2.jokeapi.dev/joke/' + info)
+    filterString.value = 'https://v2.jokeapi.dev/joke/' + info
     filterInfo.value = filterString.value
 }
 
@@ -44,17 +44,21 @@ const receiveFavouritesData = (fav: IFavourite, index: number) => {
         <JokeFilters @update-filters="updateFilter" />
     </Transition>
     <div v-if="error">Opps! Error encountered: {{ error.message }}</div>
-    <TransitionGroup name="bounce">
-        <div v-if="data" class="container-joke">
-            <h3>{{ data?.setup }}</h3>
-            <h3>{{ data?.delivery }}</h3>
-            <h3>{{ data?.joke }}</h3>
+    <div class="container-information">
+        <div class="loading-icon" v-if="loading"><i class="bi bi-hourglass-bottom">Loading....</i></div>
+        <TransitionGroup name="bounce">
+            <div v-if="data" class="container-joke">
+                <h3>{{ data?.setup }}</h3>
+                <h3>{{ data?.delivery }}</h3>
+                <h3>{{ data?.joke }}</h3>
+            </div>
+        </TransitionGroup>
+        <div class="container-buttons">
+            <JokeSaveData v-if="data" :joke-data="data" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" />
+            <button @click="fetchData">New Joke!</button>
         </div>
-    </TransitionGroup>
-    <div class="container-buttons">
-        <JokeSaveData v-if="data" :joke-data="data" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" />
-        <button @click="fetchData">New Joke!</button>
     </div>
+    
 </template>
 
 <style scoped>
@@ -99,6 +103,14 @@ button:hover {
     margin: 10px;
     gap: 20px;
     width: 200px;
+}
+
+.container-information {
+    height: 400px;
+}
+
+.loading-icon {
+    text-align: center;
 }
 
 </style>

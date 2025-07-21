@@ -3,7 +3,6 @@
 </script>
 
 <template>
-
     <footer>
         <div class="container">
             <h2>Jokes For You</h2>
@@ -15,7 +14,6 @@
             <p class="copyright">© 2025 Shitty Joke Stealer. All rights reserved.</p>
         </div>
     </footer>
-
 </template>
 
 <style scoped>
