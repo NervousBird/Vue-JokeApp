@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { IJoke } from '@/joke';
-import { onBeforeMount, onMounted, ref } from 'vue';
 
 const props = defineProps<{
     jokeInfoArray: IJoke[]
@@ -41,7 +40,7 @@ const emit = defineEmits<{
                         <h3>{{ data.delivery }}</h3>
                         <h3>{{ data.joke }}</h3>
                         <p>{{ data.category }}</p>
-                        <p>{{ data.id }}</p>
+                        <!-- <p>{{ data.id }}</p> -->
                         <div class="delete-button" @click="deleteJoke(data.id)"><i class="bi bi-x-square-fill"></i></div>
                         <!-- <JokeSaveData :joke-data="data" :favourites-data="favouritesArray" @update-favourites-info="receiveFavouritesData" /> -->
                     </li>
